@@ -10,43 +10,38 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.runner.RunWith;
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
+@SpringBootTest
 public class RegionServiceTest {
 
     @Autowired
     RegionService regionService;
 
     @org.junit.Test
+    @Transactional
     public void getAllRegions() {
+
+        Region region = new Region(){{
+            setRegionName("Cluj-Napoca");
+            setStatus(false);
+        }};
+
+        regionService.save(region);
 
         List<Region> regions = Arrays.asList(new Region() {{
             setId(1);
-            setRegionName("Cluj");
-        }}, new Region() {{
-            setId(2);
-            setRegionName("Mures");
-        }}, new Region() {{
-            setId(3);
-            setRegionName("Timisoara");
-        }}, new Region() {{
-            setId(4);
-            setRegionName("Oradea");
-        }}, new Region() {{
-            setId(5);
-            setRegionName("Bistrita");
-        }}, new Region() {{
-            setId(6);
             setRegionName("Sibiu");
+            setStatus(false);
         }});
 
         List<Region> regionList = regionService.getAllRegions();
 
         assertThat(regionList.size())
-                .isEqualTo(6);
+                .isEqualTo(2);
 
         assertThat(regionList.get(0))
                 .isEqualToIgnoringGivenFields(regions.get(0));

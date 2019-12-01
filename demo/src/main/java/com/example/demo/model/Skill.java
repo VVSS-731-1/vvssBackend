@@ -5,18 +5,22 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "regions")
+@Table(name = "skills")
 @Data
-public class Region{
+public class Skill {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(name="name")
-    private String regionName;
+    @Column
+    private String name;
 
     @Column
     private Boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "skill_area_id")
+    private SkillArea skillArea;
 
 }

@@ -15,7 +15,12 @@ public class RegionService {
 
     public List<Region> getAllRegions()
     {
-        return regionRepository.findAll();
+        return (List<Region>) regionRepository.findAll();
+    }
+
+    public void save(Region region)
+    {
+        regionRepository.save(region);
     }
 
 }

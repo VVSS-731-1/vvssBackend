@@ -5,16 +5,16 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "regions")
+@Table(name = "customers")
 @Data
-public class Region{
+public class Customer {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    @Column(name="name")
-    private String regionName;
+    @Column
+    private String name;
 
     @Column
     private Boolean status;
