@@ -15,10 +15,7 @@ public class CustomerService {
 
     public void save(Customer customer)
     {
-        customerRepository.save(new Customer(){{ setId(10);
-        setName("myname");
-        setStatus(false);}
-        });
+        customerRepository.save(customer);
     }
 
     public List<Customer> findAll(){

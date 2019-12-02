@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class ConsultingLevel {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

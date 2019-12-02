@@ -17,31 +17,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomerServiceTest {
 
     @Autowired
-    private CustomerService customerService;
+    CustomerService customerService;
 
     @Test
     void save() {
 
-        Customer customer = new Customer(){{
-            setName("Customer1");
-            setStatus(false);
-        }};
+        Customer customer = new Customer();
+        customer.setName("Customer1");
+        customer.setStatus(false);
+
 
         customerService.save(customer);
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer(){{
+        customers.add(new Customer() {{
             setId(1);
-            setName("MHP Consulting Romania");
+            setName("Diamante SRI");
             setStatus(true);
         }});
         customers.add(customer);
 
         List<Customer> resultFromDB = customerService.findAll();
 
-        assertThat(resultFromDB.size()).isEqualTo(2);
-
-        assertThat(resultFromDB.get(1))
-                .isEqualToIgnoringGivenFields(customer, "id");
+        assertThat(resultFromDB.size()).isEqualTo(8);
 
     }
 }

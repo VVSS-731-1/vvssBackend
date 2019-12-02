@@ -1,16 +1,18 @@
 package com.example.demo.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "skills")
-@Data
+@Getter
+@Setter
 public class Skill {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -19,7 +21,7 @@ public class Skill {
     @Column
     private Boolean status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "skill_area_id")
     private SkillArea skillArea;
 
