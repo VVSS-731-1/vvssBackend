@@ -1,14 +1,18 @@
 package com.example.demo.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -39,10 +43,13 @@ public class User {
     @Column
     private Boolean status;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "supervisors",
-//            joinColumns = @JoinColumn(name = "supervisor_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-//    private Set<User> supervised;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor_id")
+    private User supervisor;
+
+    @OneToMany(mappedBy = "supervisor")
+    private Set<User> supervising = new HashSet<>();
+
 
 }
