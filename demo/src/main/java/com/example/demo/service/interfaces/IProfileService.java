@@ -6,6 +6,6 @@ public interface IProfileService {
 
     ProfileDTO saveProfile(ProfileDTO profileDTO);
     ProfileDTO updateProfile(ProfileDTO profileDTO);
-    ProfileDTO getProfile(Integer profileId);
-    ProfileDTO deleteProfile(Integer profileId);
+    ProfileDTO getProfile(ProfileDTO profileDTO);
+    void deleteProfile(ProfileDTO profileDTO);
 }

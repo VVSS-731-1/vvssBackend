@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.example.demo.service.dto.ProfileDTO;
-import com.example.demo.service.dto.ProfileDTOEntityMapper;
+import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.interfaces.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,10 +44,10 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public ProfileDTO saveProfile(ProfileDTO profileDTO) {
-        Profile profile = ProfileDTOEntityMapper.getProfileFromProfileDTO(profileDTO);
-        profileRepository.save(profile);
+        Profile profile = DtoMapping.getProfileFromProfileDTO(profileDTO);
+        profile = profileRepository.save(profile);
 
-        return ProfileDTOEntityMapper.getDTOFromProfile(profile);
+        return DtoMapping.getDTOFromProfile(profile);
     }
 
     /**
@@ -69,7 +69,7 @@ public class ProfileService implements IProfileService {
         profile.setUser(user);
         profile.setImage(image);
 
-        Map<Integer, Integer> skillIds = profileDTO.getSkillProfileIds();
+        Map<Integer, Integer> skillIds = profileDTO.getSkillIds();
         Set<SkillProfile> skillProfiles = new HashSet<>();
 
         for(Map.Entry<Integer, Integer> entry : skillIds.entrySet()) {
@@ -84,36 +84,38 @@ public class ProfileService implements IProfileService {
         }
 
         profile.setSkillProfiles(skillProfiles);
+        profileRepository.save(profile);
         profileRepository.flush();
 
-        return ProfileDTOEntityMapper.getDTOFromProfile(profile);
+        return DtoMapping.getDTOFromProfile(profile);
     }
 
     /**
      * Returns one profile in order to be displayed
-     * @param profileId the id of the profile to be displayed
+     * @param profileDTO the profile to be displayed
      * @return the profile DTO
      * @author Miruna
      */
     @Override
-    public ProfileDTO getProfile(Integer profileId) {
-        Profile profile = profileRepository.getOne(profileId);
+    public ProfileDTO getProfile(ProfileDTO profileDTO) {
+        Profile profile = profileRepository.getOne(profileDTO.getId());
 
-        return ProfileDTOEntityMapper.getDTOFromProfile(profile);
+        return DtoMapping.getDTOFromProfile(profile);
     }
 
     /**
      * Sets the status to false = inactive
-     * @param profileId the id of the profile that will be "deleted"
+     * @param profileDTO the profile that will be "deleted"
      * @return the profile DTO
      * @author Miruna
      */
     @Override
-    public ProfileDTO deleteProfile(Integer profileId) {
-        Profile profile = profileRepository.getOne(profileId);
-        profile.setStatus(false);
-        profileRepository.flush();
+    public void deleteProfile(ProfileDTO profileDTO) {
+        Profile profile = profileRepository.getOne(profileDTO.getId());
 
-        return ProfileDTOEntityMapper.getDTOFromProfile(profile);
+        if(profile != null) {
+            profile.setStatus(false);
+            profileRepository.flush();
+        }
     }
 }
