@@ -27,6 +27,12 @@ public class DtoMapping {
     @Autowired
     private static SkillAreaRepository skillAreaRepository;
 
+    @Autowired
+    private static IndustryRepository industryRepository;
+
+    @Autowired
+    private static CustomerRepository customerRepository;
+
 
     private DtoMapping() {
 
@@ -192,20 +198,6 @@ public class DtoMapping {
 
         return skillArea;
     }
-import com.example.demo.model.Customer;
-import com.example.demo.model.Industry;
-import com.example.demo.model.Project;
-import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.IndustryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
-public class DtoMapping {
-
-    @Autowired
-    private static IndustryRepository industryRepository;
-
-    @Autowired
-    private static CustomerRepository customerRepository;
 
     public static Project dtoToProject(ProjectDto projectDto) {
         Project project = new Project();
