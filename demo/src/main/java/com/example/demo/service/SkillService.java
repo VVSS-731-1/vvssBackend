@@ -30,12 +30,14 @@ public class SkillService {
     }
 
     //TODO admin only
-    public void deactivateSkill(SkillDTO skillDTO) {
+    public SkillDTO deactivateSkill(SkillDTO skillDTO) {
         Skill skill = skillRepository.getOne(skillDTO.getId());
 
         if(skill != null) {
             skill.setStatus(false);
-            skillRepository.save(skill);
+            return DtoMapping.getDTOFromSkill(skillRepository.save(skill));
         }
+
+        return null;
     }
 }

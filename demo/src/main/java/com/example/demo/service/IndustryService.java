@@ -4,7 +4,7 @@ package com.example.demo.service;
 import com.example.demo.model.Industry;
 import com.example.demo.repository.IndustryRepository;
 import com.example.demo.service.dto.DtoMapping;
-import com.example.demo.service.dto.IndustryDto;
+import com.example.demo.service.dto.IndustryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,21 @@ public class IndustryService {
     }
 
     //todo admin only
-    public IndustryDto save(IndustryDto industryDto) {
+    public IndustryDTO save(IndustryDTO industryDto) {
         Industry industry = DtoMapping.dtoToIndustry(industryDto);
         industry = industryRepository.save(industry);
         return DtoMapping.industryToDto(industry);
     }
 
     //todo admin only
-    public void deactivateIndustry(IndustryDto industryDto) {
+    public IndustryDTO deactivateIndustry(IndustryDTO industryDto) {
         industryRepository.findById(industryDto.getId()).ifPresent(industry -> {
             industry.setStatus(false);
             industryRepository.save(industry);
+            industryDto.setStatus(false);
         });
+
+        return industryDto;
     }
 
 }

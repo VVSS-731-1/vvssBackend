@@ -110,12 +110,15 @@ public class ProfileService implements IProfileService {
      * @author Miruna
      */
     @Override
-    public void deleteProfile(ProfileDTO profileDTO) {
+    public ProfileDTO deleteProfile(ProfileDTO profileDTO) {
         Profile profile = profileRepository.getOne(profileDTO.getId());
 
         if(profile != null) {
             profile.setStatus(false);
             profileRepository.flush();
+            return DtoMapping.getDTOFromProfile(profileRepository.save(profile));
         }
+
+        return null;
     }
 }

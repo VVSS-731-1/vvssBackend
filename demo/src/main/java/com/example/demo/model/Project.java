@@ -33,4 +33,16 @@ public class Project {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    public Project(int id, String name, String description, Boolean status, Long duration, Industry industry, Customer customer) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = duration;
+        this.industry = industry;
+        this.customer = customer;
+    }
+
+    public Project() {
+    }
 }

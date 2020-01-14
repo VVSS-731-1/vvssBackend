@@ -23,4 +23,12 @@ public class SkillProfile {
     @Column(name = "level")
     Integer level;
 
+    public SkillProfile(Skill skill_id, Profile profile_id, Integer level) {
+        this.skill_id = skill_id;
+        this.profile_id = profile_id;
+        this.level = level;
+    }
+
+    public SkillProfile() {
+    }
 }

@@ -2,13 +2,14 @@ package com.example.demo.service.dto;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
+import com.example.demo.service.SkillAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+@Service
 public class DtoMapping {
 
 
@@ -33,9 +34,11 @@ public class DtoMapping {
     @Autowired
     private static CustomerRepository customerRepository;
 
+    @Autowired
+    private static SkillAreaService skillAreaService;
 
     private DtoMapping() {
-
+        //skillAreaService = new SkillAreaService();
     }
 
     /**
@@ -164,12 +167,19 @@ public class DtoMapping {
 
     public static Skill getSkillFromDto(SkillDTO skillDTO) {
         Skill skill = new Skill();
+        //skillAreaService = new SkillAreaService();
 
         if(skillDTO != null) {
             skill.setId(skillDTO.getId());
             skill.setName(skillDTO.getName());
             skill.setStatus(skillDTO.getStatus());
-            skillAreaRepository.findById(skillDTO.getSkillAreaId()).ifPresent(skill::setSkillArea);
+//            Optional<SkillArea> skillArea = skillAreaRepository.findById(skillDTO.getSkillAreaId());//.ifPresent(skill::setSkillArea);
+//            skill.setSkillArea(skillArea.get());
+//            SkillAreaDTO skillAreaDTO = skillAreaService.getSkillAreaById(skillDTO.getSkillAreaId());
+//            skill.setSkillArea(getSkillAreaFromDTO(skillAreaDTO));
+
+            SkillArea skillArea = skillAreaRepository.getOne(skillDTO.getSkillAreaId());
+            skill.setSkillArea(skillArea);
         }
 
         return skill;
@@ -199,7 +209,7 @@ public class DtoMapping {
         return skillArea;
     }
 
-    public static Project dtoToProject(ProjectDto projectDto) {
+    public static Project dtoToProject(ProjectDTO projectDto) {
         Project project = new Project();
         project.setId(projectDto.getId());
         project.setName(projectDto.getName());
@@ -211,8 +221,8 @@ public class DtoMapping {
         return project;
     }
 
-    public static ProjectDto projectToDto(Project project) {
-        ProjectDto projectDto = new ProjectDto();
+    public static ProjectDTO projectToDto(Project project) {
+        ProjectDTO projectDto = new ProjectDTO();
         projectDto.setId(project.getId());
         projectDto.setName(project.getName());
         projectDto.setDescription(project.getDescription());
@@ -223,7 +233,7 @@ public class DtoMapping {
         return projectDto;
     }
 
-    public static Customer dtoToCustomer(CustomerDto customerDto) {
+    public static Customer dtoToCustomer(CustomerDTO customerDto) {
         Customer customer = new Customer();
         customer.setId(customerDto.getId());
         customer.setName(customerDto.getName());
@@ -231,15 +241,15 @@ public class DtoMapping {
         return customer;
     }
 
-    public static CustomerDto customerToDto(Customer customer) {
-        CustomerDto customerDto = new CustomerDto();
+    public static CustomerDTO customerToDto(Customer customer) {
+        CustomerDTO customerDto = new CustomerDTO();
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getName());
         customerDto.setStatus(customer.getStatus());
         return customerDto;
     }
 
-    public static Industry dtoToIndustry(IndustryDto industryDto) {
+    public static Industry dtoToIndustry(IndustryDTO industryDto) {
         Industry industry = new Industry();
         industry.setId(industryDto.getId());
         industry.setName(industryDto.getName());
@@ -248,8 +258,8 @@ public class DtoMapping {
         return industry;
     }
 
-    public static IndustryDto industryToDto(Industry industry) {
-        IndustryDto industryDto = new IndustryDto();
+    public static IndustryDTO industryToDto(Industry industry) {
+        IndustryDTO industryDto = new IndustryDTO();
         industryDto.setId(industry.getId());
         industryDto.setName(industry.getName());
         industryDto.setDescription(industry.getDescription());

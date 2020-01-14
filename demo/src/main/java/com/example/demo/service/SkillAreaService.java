@@ -29,12 +29,18 @@ public class SkillAreaService {
     }
 
     //TODO admin only
-    public void deactivateSkillArea(SkillAreaDTO skillAreaDTO) {
+    public SkillAreaDTO deactivateSkillArea(SkillAreaDTO skillAreaDTO) {
         SkillArea skillArea = skillAreaRepository.getOne(skillAreaDTO.getId());
 
         if(skillArea != null) {
             skillArea.setStatus(false);
-            skillAreaRepository.save(skillArea);
+            return DtoMapping.getDTOFromSkillArea(skillAreaRepository.save(skillArea));
         }
+
+        return null;
+    }
+
+    public SkillAreaDTO getSkillAreaById(Integer id) {
+        return DtoMapping.getDTOFromSkillArea(skillAreaRepository.getOne(id));
     }
 }

@@ -8,6 +8,7 @@ import com.example.demo.service.interfaces.ConsultingLevelServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class ConsultingLevelService implements ConsultingLevelServiceInterface {
     }
 
     //TODO admin only
+    @Transactional
     public ConsultingLevelDTO save(ConsultingLevelDTO consultingLevelDTO) {
         ConsultingLevel consultingLevel = DtoMapping.getConsultingLevelFromDTO(consultingLevelDTO);
         consultingLevel = consultingLevelRepository.save(consultingLevel);
@@ -30,13 +32,16 @@ public class ConsultingLevelService implements ConsultingLevelServiceInterface {
     }
 
     //TODO admin only
-    public void deactivateConsultingLevel(ConsultingLevelDTO consultingLevelDTO) {
+    public ConsultingLevelDTO deactivateConsultingLevel(ConsultingLevelDTO consultingLevelDTO) {
         ConsultingLevel consultingLevel = consultingLevelRepository.getOne(consultingLevelDTO.getId());
 
         if(consultingLevel != null) {
             consultingLevel.setStatus(false);
-            consultingLevelRepository.save(consultingLevel);
+            return DtoMapping.getDTOFromConsultingLevel(consultingLevelRepository.save(consultingLevel));
+
         }
+
+        return null;
     }
 
 

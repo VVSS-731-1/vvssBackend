@@ -3,7 +3,7 @@ package com.example.demo.service.dto;
 import lombok.Data;
 
 @Data
-public class ProjectDto {
+public class ProjectDTO {
     private Integer id;
     private String name;
     private String description;
@@ -12,10 +12,10 @@ public class ProjectDto {
     private Integer industryId;
     private Integer customerId;
 
-    public ProjectDto() {
+    public ProjectDTO() {
     }
 
-    public ProjectDto(String name, String description, Boolean status, Long duration, Integer industryId, Integer customerId) {
+    public ProjectDTO(String name, String description, Boolean status, Long duration, Integer industryId, Integer customerId) {
         this.name = name;
         this.description = description;
         this.status = status;
