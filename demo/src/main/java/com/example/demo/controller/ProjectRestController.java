@@ -17,7 +17,7 @@ public class ProjectRestController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/add")
+    @PostMapping("/add") //optional consumes = "application/json" produces = "application/json"
     public ResponseEntity<String> saveProject(@RequestBody ProjectDto projectDto){
         ProjectDto response = projectService.save(projectDto);
         if(response != null){
