@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Customer;
+import com.example.demo.service.dto.DtoMapping;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ class CustomerServiceTest {
         customer.setStatus(false);
 
 
-        customerService.save(customer);
+        customerService.save(DtoMapping.customerToDto(customer));
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer() {{
             setId(1);

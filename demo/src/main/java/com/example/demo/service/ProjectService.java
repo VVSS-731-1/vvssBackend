@@ -32,7 +32,7 @@ public class ProjectService {
     public void deactivate(ProjectDto projectDto){
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
             project.setStatus(false);
-            projectRepository.save(project);
+            projectRepository.save(project); // update through save
         });
     }
 
