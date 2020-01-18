@@ -20,6 +20,9 @@ class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    private DtoMapping dtoMapping;
+
     @Test
     void save() {
 
@@ -28,7 +31,7 @@ class CustomerServiceTest {
         customer.setStatus(false);
 
 
-        customerService.save(DtoMapping.customerToDto(customer));
+        customerService.save(dtoMapping.customerToDto(customer));
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer() {{
             setId(1);

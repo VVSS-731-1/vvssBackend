@@ -22,6 +22,9 @@ public class RegionServiceTest {
     @Autowired
     RegionService regionService;
 
+    @Autowired
+    private DtoMapping dtoMapping;
+
     @Test
     public void getAllRegions() {
 
@@ -30,7 +33,7 @@ public class RegionServiceTest {
         region.setStatus(false);
 
 
-        regionService.save(DtoMapping.getDTOFromRegion(region));
+        regionService.save(dtoMapping.getDTOFromRegion(region));
 
         List<Region> regions = Arrays.asList(new Region() {{
             setId(1);
