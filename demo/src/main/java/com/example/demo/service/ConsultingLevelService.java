@@ -6,15 +6,20 @@ import com.example.demo.service.dto.ConsultingLevelDTO;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.interfaces.ConsultingLevelServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Component
 public class ConsultingLevelService implements ConsultingLevelServiceInterface {
 
     @Autowired
     private ConsultingLevelRepository consultingLevelRepository;
+
+    @Autowired
+    private DtoMapping dtoMapping;
 
     public List<ConsultingLevel> findAll()
     {
@@ -23,10 +28,10 @@ public class ConsultingLevelService implements ConsultingLevelServiceInterface {
 
     //TODO admin only
     public ConsultingLevelDTO save(ConsultingLevelDTO consultingLevelDTO) {
-        ConsultingLevel consultingLevel = DtoMapping.getConsultingLevelFromDTO(consultingLevelDTO);
+        ConsultingLevel consultingLevel = dtoMapping.getConsultingLevelFromDTO(consultingLevelDTO);
         consultingLevel = consultingLevelRepository.save(consultingLevel);
 
-        return DtoMapping.getDTOFromConsultingLevel(consultingLevel);
+        return dtoMapping.getDTOFromConsultingLevel(consultingLevel);
     }
 
     //TODO admin only

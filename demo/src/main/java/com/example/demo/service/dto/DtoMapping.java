@@ -3,35 +3,37 @@ package com.example.demo.service.dto;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Component
 public class DtoMapping {
 
 
     @Autowired
-    private static RegionRepository regionRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
-    private static ConsultingLevelRepository consultingLevelRepository;
+    private ConsultingLevelRepository consultingLevelRepository;
 
     @Autowired
-    private static UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private static SkillRepository skillRepository;
+    private SkillRepository skillRepository;
 
     @Autowired
-    private static SkillAreaRepository skillAreaRepository;
+    private SkillAreaRepository skillAreaRepository;
 
     @Autowired
-    private static IndustryRepository industryRepository;
+    private IndustryRepository industryRepository;
 
     @Autowired
-    private static CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
 
     private DtoMapping() {
@@ -40,18 +42,19 @@ public class DtoMapping {
 
     /**
      * Maps a profile dto to a profile entity
+     *
      * @param profileDTO profile dto to be mapped
      * @return a profile
      * @author Miruna
      */
-    public static Profile getProfileFromProfileDTO(ProfileDTO profileDTO) {
+    public Profile getProfileFromProfileDTO(ProfileDTO profileDTO) {
         Profile profile = new Profile();
 
-        if(profileDTO != null) {
+        if (profileDTO != null) {
             profile.setId(profileDTO.getId());
 
             Set<SkillProfile> skills = new HashSet<>();
-            for(Map.Entry<Integer, Integer> entry : profileDTO.getSkillIds().entrySet()) {
+            for (Map.Entry<Integer, Integer> entry : profileDTO.getSkillIds().entrySet()) {
                 Skill skill = skillRepository.getOne(entry.getKey());
                 SkillProfile skillProfile = new SkillProfile();
 
@@ -74,18 +77,19 @@ public class DtoMapping {
 
     /**
      * Maps a profile entity to a profile dto
+     *
      * @param profile profile to be mapped
      * @return a profile dto
      * @author Miruna
      */
-    public static ProfileDTO getDTOFromProfile(Profile profile) {
+    public ProfileDTO getDTOFromProfile(Profile profile) {
         ProfileDTO profileDTO = new ProfileDTO();
 
-        if(profile != null) {
+        if (profile != null) {
             profileDTO.setId(profile.getId());
 
             Map<Integer, Integer> skills = new HashMap<>();
-            for(SkillProfile skillProfile : profile.getSkillProfiles()) {
+            for (SkillProfile skillProfile : profile.getSkillProfiles()) {
                 skills.put(skillProfile.getSkill_id().getId(), skillProfile.getLevel());
             }
             profileDTO.setRegionId(profile.getRegion().getId());
@@ -98,10 +102,10 @@ public class DtoMapping {
         return profileDTO;
     }
 
-    public static ConsultingLevelDTO getDTOFromConsultingLevel(ConsultingLevel consultingLevel) {
+    public ConsultingLevelDTO getDTOFromConsultingLevel(ConsultingLevel consultingLevel) {
         ConsultingLevelDTO consultingLevelDTO = new ConsultingLevelDTO();
 
-        if(consultingLevel != null) {
+        if (consultingLevel != null) {
             consultingLevelDTO.setId(consultingLevel.getId());
             consultingLevelDTO.setName(consultingLevel.getName());
             consultingLevelDTO.setDescription(consultingLevel.getDescription());
@@ -111,10 +115,10 @@ public class DtoMapping {
         return consultingLevelDTO;
     }
 
-    public static ConsultingLevel getConsultingLevelFromDTO(ConsultingLevelDTO consultingLevelDTO) {
+    public ConsultingLevel getConsultingLevelFromDTO(ConsultingLevelDTO consultingLevelDTO) {
         ConsultingLevel consultingLevel = new ConsultingLevel();
 
-        if(consultingLevelDTO != null) {
+        if (consultingLevelDTO != null) {
             consultingLevel.setId(consultingLevelDTO.getId());
             consultingLevel.setName(consultingLevelDTO.getName());
             consultingLevel.setDescription(consultingLevelDTO.getDescription());
@@ -124,10 +128,10 @@ public class DtoMapping {
         return consultingLevel;
     }
 
-    public static RegionDTO getDTOFromRegion(Region region) {
+    public RegionDTO getDTOFromRegion(Region region) {
         RegionDTO regionDTO = new RegionDTO();
 
-        if(region != null) {
+        if (region != null) {
             regionDTO.setId(region.getId());
             regionDTO.setRegionName(region.getRegionName());
             regionDTO.setStatus(region.getStatus());
@@ -137,10 +141,10 @@ public class DtoMapping {
     }
 
 
-    public static Region getRegionFromDTO(RegionDTO regionDTO) {
+    public Region getRegionFromDTO(RegionDTO regionDTO) {
         Region region = new Region();
 
-        if(regionDTO != null) {
+        if (regionDTO != null) {
             region.setId(regionDTO.getId());
             region.setRegionName(regionDTO.getRegionName());
             region.setStatus(regionDTO.getStatus());
@@ -149,10 +153,10 @@ public class DtoMapping {
         return region;
     }
 
-    public static SkillDTO getDTOFromSkill(Skill skill) {
+    public SkillDTO getDTOFromSkill(Skill skill) {
         SkillDTO skillDTO = new SkillDTO();
 
-        if(skill != null) {
+        if (skill != null) {
             skillDTO.setId(skill.getId());
             skillDTO.setName(skill.getName());
             skillDTO.setStatus(skill.getStatus());
@@ -162,10 +166,10 @@ public class DtoMapping {
         return skillDTO;
     }
 
-    public static Skill getSkillFromDto(SkillDTO skillDTO) {
+    public Skill getSkillFromDto(SkillDTO skillDTO) {
         Skill skill = new Skill();
 
-        if(skillDTO != null) {
+        if (skillDTO != null) {
             skill.setId(skillDTO.getId());
             skill.setName(skillDTO.getName());
             skill.setStatus(skillDTO.getStatus());
@@ -175,10 +179,10 @@ public class DtoMapping {
         return skill;
     }
 
-    public static SkillAreaDTO getDTOFromSkillArea(SkillArea skillArea) {
+    public SkillAreaDTO getDTOFromSkillArea(SkillArea skillArea) {
         SkillAreaDTO skillAreaDTO = new SkillAreaDTO();
 
-        if(skillArea != null){
+        if (skillArea != null) {
             skillAreaDTO.setId(skillArea.getId());
             skillAreaDTO.setName(skillArea.getName());
             skillAreaDTO.setStatus(skillArea.getStatus());
@@ -187,10 +191,10 @@ public class DtoMapping {
         return skillAreaDTO;
     }
 
-    public static SkillArea getSkillAreaFromDTO(SkillAreaDTO skillAreaDTO) {
+    public SkillArea getSkillAreaFromDTO(SkillAreaDTO skillAreaDTO) {
         SkillArea skillArea = new SkillArea();
 
-        if(skillAreaDTO != null) {
+        if (skillAreaDTO != null) {
             skillArea.setId(skillAreaDTO.getId());
             skillArea.setName(skillAreaDTO.getName());
             skillArea.setStatus(skillAreaDTO.getStatus());
@@ -199,7 +203,7 @@ public class DtoMapping {
         return skillArea;
     }
 
-    public static Project dtoToProject(ProjectDto projectDto) {
+    public Project dtoToProject(ProjectDto projectDto) {
         Project project = new Project();
         project.setId(projectDto.getId());
         project.setName(projectDto.getName());
@@ -211,7 +215,7 @@ public class DtoMapping {
         return project;
     }
 
-    public static ProjectDto projectToDto(Project project) {
+    public ProjectDto projectToDto(Project project) {
         ProjectDto projectDto = new ProjectDto();
         projectDto.setId(project.getId());
         projectDto.setName(project.getName());
@@ -223,7 +227,7 @@ public class DtoMapping {
         return projectDto;
     }
 
-    public static Customer dtoToCustomer(CustomerDto customerDto) {
+    public Customer dtoToCustomer(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setId(customerDto.getId());
         customer.setName(customerDto.getName());
@@ -231,7 +235,7 @@ public class DtoMapping {
         return customer;
     }
 
-    public static CustomerDto customerToDto(Customer customer) {
+    public CustomerDto customerToDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto();
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getName());
@@ -239,7 +243,7 @@ public class DtoMapping {
         return customerDto;
     }
 
-    public static Industry dtoToIndustry(IndustryDto industryDto) {
+    public Industry dtoToIndustry(IndustryDto industryDto) {
         Industry industry = new Industry();
         industry.setId(industryDto.getId());
         industry.setName(industryDto.getName());
@@ -248,7 +252,7 @@ public class DtoMapping {
         return industry;
     }
 
-    public static IndustryDto industryToDto(Industry industry) {
+    public IndustryDto industryToDto(Industry industry) {
         IndustryDto industryDto = new IndustryDto();
         industryDto.setId(industry.getId());
         industryDto.setName(industry.getName());

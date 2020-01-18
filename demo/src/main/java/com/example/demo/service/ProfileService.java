@@ -6,6 +6,7 @@ import com.example.demo.service.dto.ProfileDTO;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.interfaces.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Component
 public class ProfileService implements IProfileService {
 
     @Autowired
@@ -31,6 +33,9 @@ public class ProfileService implements IProfileService {
     @Autowired
     private SkillRepository skillRepository;
 
+    @Autowired
+    DtoMapping dtoMapping;
+
     public List<Profile> findAll()
     {
         return profileRepository.findAll();
@@ -44,10 +49,10 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public ProfileDTO saveProfile(ProfileDTO profileDTO) {
-        Profile profile = DtoMapping.getProfileFromProfileDTO(profileDTO);
+        Profile profile = dtoMapping.getProfileFromProfileDTO(profileDTO);
         profile = profileRepository.save(profile);
 
-        return DtoMapping.getDTOFromProfile(profile);
+        return dtoMapping.getDTOFromProfile(profile);
     }
 
     /**
@@ -87,7 +92,7 @@ public class ProfileService implements IProfileService {
         profileRepository.save(profile);
         profileRepository.flush();
 
-        return DtoMapping.getDTOFromProfile(profile);
+        return dtoMapping.getDTOFromProfile(profile);
     }
 
     /**
@@ -100,7 +105,7 @@ public class ProfileService implements IProfileService {
     public ProfileDTO getProfile(ProfileDTO profileDTO) {
         Profile profile = profileRepository.getOne(profileDTO.getId());
 
-        return DtoMapping.getDTOFromProfile(profile);
+        return dtoMapping.getDTOFromProfile(profile);
     }
 
     /**

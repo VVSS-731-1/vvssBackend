@@ -5,16 +5,21 @@ import com.example.demo.repository.ProjectRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.ProjectDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Component
 public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private DtoMapping dtoMapping;
 
     public List<Project> findAll()
     {
@@ -23,9 +28,9 @@ public class ProjectService {
 
     //todo admin only
     public ProjectDto save(ProjectDto projectDto){
-        Project project = DtoMapping.dtoToProject(projectDto);
+        Project project = dtoMapping.dtoToProject(projectDto);
         project = projectRepository.save(project);
-        return DtoMapping.projectToDto(project);
+        return dtoMapping.projectToDto(project);
     }
 
     //todo admin only
@@ -39,7 +44,7 @@ public class ProjectService {
     //todo admin only
     public ProjectDto update(ProjectDto projectDto){
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
-            Project projectnew = DtoMapping.dtoToProject(projectDto);
+            Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setName(projectnew.getName());
             project.setDescription(projectnew.getDescription());
             project.setDuration(projectnew.getDuration());
@@ -49,7 +54,7 @@ public class ProjectService {
             projectRepository.save(project);
         });
         if(projectRepository.findById(projectDto.getId()).isPresent()){
-            return DtoMapping.projectToDto(projectRepository.findById(projectDto.getId()).get());
+            return dtoMapping.projectToDto(projectRepository.findById(projectDto.getId()).get());
         }
         return null;
     }
@@ -58,7 +63,7 @@ public class ProjectService {
     //update on custommer
     public void assignCustomer(ProjectDto projectDto){
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
-            Project projectnew = DtoMapping.dtoToProject(projectDto);
+            Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setCustomer(projectnew.getCustomer());
             projectRepository.save(project);
         });
@@ -68,7 +73,7 @@ public class ProjectService {
     //update on industry
     public void assignIndustry(ProjectDto projectDto){
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
-            Project projectnew = DtoMapping.dtoToProject(projectDto);
+            Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setIndustry(projectnew.getIndustry());
             projectRepository.save(project);
         });

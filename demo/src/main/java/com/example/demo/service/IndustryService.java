@@ -6,15 +6,20 @@ import com.example.demo.repository.IndustryRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.IndustryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Component
 public class IndustryService {
 
     @Autowired
     private IndustryRepository industryRepository;
+
+    @Autowired
+    private DtoMapping dtoMapping;
 
     public List<Industry> findAll()
     {
@@ -23,9 +28,9 @@ public class IndustryService {
 
     //todo admin only
     public IndustryDto save(IndustryDto industryDto) {
-        Industry industry = DtoMapping.dtoToIndustry(industryDto);
+        Industry industry = dtoMapping.dtoToIndustry(industryDto);
         industry = industryRepository.save(industry);
-        return DtoMapping.industryToDto(industry);
+        return dtoMapping.industryToDto(industry);
     }
 
     //todo admin only

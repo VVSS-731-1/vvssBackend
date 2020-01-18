@@ -5,15 +5,20 @@ import com.example.demo.repository.SkillAreaRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.SkillAreaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Component
 public class SkillAreaService {
 
     @Autowired
     private SkillAreaRepository skillAreaRepository;
+
+    @Autowired
+    private DtoMapping dtoMapping;
 
     public List<SkillArea> findAll()
     {
@@ -22,10 +27,10 @@ public class SkillAreaService {
 
     //TODO admin only
     public SkillAreaDTO save(SkillAreaDTO skillAreaDTO) {
-        SkillArea skillArea = DtoMapping.getSkillAreaFromDTO(skillAreaDTO);
+        SkillArea skillArea = dtoMapping.getSkillAreaFromDTO(skillAreaDTO);
         skillArea = skillAreaRepository.save(skillArea);
 
-        return DtoMapping.getDTOFromSkillArea(skillArea);
+        return dtoMapping.getDTOFromSkillArea(skillArea);
     }
 
     //TODO admin only
