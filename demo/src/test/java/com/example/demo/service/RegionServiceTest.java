@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Region;
+import com.example.demo.service.dto.DtoMapping;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RegionServiceTest {
         region.setStatus(false);
 
 
-        regionService.save(region);
+        regionService.save(DtoMapping.getDTOFromRegion(region));
 
         List<Region> regions = Arrays.asList(new Region() {{
             setId(1);
