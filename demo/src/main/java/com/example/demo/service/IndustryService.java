@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -21,9 +22,16 @@ public class IndustryService {
     @Autowired
     private DtoMapping dtoMapping;
 
-    public List<Industry> findAll()
+    public List<IndustryDto> findAll()
     {
-        return industryRepository.findAll();
+        return industryRepository.findAll().stream().map(dtoMapping::industryToDto).collect(Collectors.toList());
+    }
+
+    public IndustryDto findById(Integer id){
+        if(industryRepository.findById(id).isPresent()){
+            return dtoMapping.industryToDto(industryRepository.findById(id).get());
+        }
+        return null;
     }
 
     //todo admin only

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -20,8 +21,14 @@ public class CustomerService {
     @Autowired
     private DtoMapping dtoMapping;
 
-    public List<Customer> findAll() {
-        return (List<Customer>) customerRepository.findAll();
+    public List<CustomerDto> findAll() {
+        return customerRepository.findAll().stream().map(dtoMapping::customerToDto).collect(Collectors.toList());
+    }
+
+    public CustomerDto findById(Integer id){
+        if (customerRepository.findById(id).isPresent())
+            return dtoMapping.customerToDto(customerRepository.findById(id).get());
+        return null;
     }
 
     //todo admin only
