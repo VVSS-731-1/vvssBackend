@@ -26,6 +26,13 @@ public class ConsultingLevelService implements ConsultingLevelServiceInterface {
         return consultingLevelRepository.findAll();
     }
 
+    public ConsultingLevelDTO findById(Integer id) {
+        if(consultingLevelRepository.findById(id).isPresent()){
+            return dtoMapping.getDTOFromConsultingLevel(consultingLevelRepository.findById(id).get());
+        }
+
+        return null;
+    }
     //TODO admin only
     public ConsultingLevelDTO save(ConsultingLevelDTO consultingLevelDTO) {
         ConsultingLevel consultingLevel = dtoMapping.getConsultingLevelFromDTO(consultingLevelDTO);

@@ -32,7 +32,7 @@ public class CustomerRestController {
     }
 
     @PostMapping("/add") //optional consumes = "application/json" produces = "application/json"
-    public ResponseEntity<String> saveIndustry(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<String> saveCustomer(@RequestBody CustomerDto customerDto) {
         CustomerDto response = customerService.save(customerDto);
         if (response != null) {
             return ResponseEntity.ok().body("Customer saved!");
@@ -41,7 +41,7 @@ public class CustomerRestController {
     }
 
     @PostMapping("/deactivate")
-    public ResponseEntity<String> deactivateIndustry(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<String> deactivateCustomer(@RequestBody CustomerDto customerDto) {
         customerService.deactivateCustomer(customerDto);
         return ResponseEntity.ok().body("Customer deactivated!");
     }

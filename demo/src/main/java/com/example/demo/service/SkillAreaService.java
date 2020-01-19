@@ -25,6 +25,14 @@ public class SkillAreaService {
         return skillAreaRepository.findAll();
     }
 
+    public SkillAreaDTO findById(Integer id) {
+        if(skillAreaRepository.findById(id).isPresent()){
+            return dtoMapping.getDTOFromSkillArea(skillAreaRepository.findById(id).get());
+        }
+
+        return null;
+    }
+
     //TODO admin only
     public SkillAreaDTO save(SkillAreaDTO skillAreaDTO) {
         SkillArea skillArea = dtoMapping.getSkillAreaFromDTO(skillAreaDTO);

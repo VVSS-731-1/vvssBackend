@@ -25,6 +25,11 @@ public class RegionService {
         return (List<Region>) regionRepository.findAll();
     }
 
+    public RegionDTO findById(Integer id){
+        if (regionRepository.findById(id).isPresent())
+            return dtoMapping.getDTOFromRegion(regionRepository.findById(id).get());
+        return null;
+    }
     //TODO admin only
     public RegionDTO save(RegionDTO regionDTO)
     {

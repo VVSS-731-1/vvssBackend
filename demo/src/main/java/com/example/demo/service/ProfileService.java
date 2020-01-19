@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Service
 @Component
-public class ProfileService implements IProfileService {
+public class ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -41,13 +41,19 @@ public class ProfileService implements IProfileService {
         return profileRepository.findAll();
     }
 
+    public ProfileDTO findById(Integer id) {
+        if(profileRepository.findById(id).isPresent()){
+            return dtoMapping.getDTOFromProfile(profileRepository.findById(id).get());
+        }
+
+        return null;
+    }
     /**
      * Insert new profile into DB
      * @param profileDTO profile to be inserted
      * @return the profile dto
      * @author Miruna
      */
-    @Override
     public ProfileDTO saveProfile(ProfileDTO profileDTO) {
         Profile profile = dtoMapping.getProfileFromProfileDTO(profileDTO);
         profile = profileRepository.save(profile);
@@ -61,7 +67,6 @@ public class ProfileService implements IProfileService {
      * @return profile dto
      * @author Miruna
      */
-    @Override
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
         Profile profile = profileRepository.getOne(profileDTO.getId());
         Region region = regionRepository.getOne(profileDTO.getRegionId());
@@ -96,31 +101,41 @@ public class ProfileService implements IProfileService {
     }
 
     /**
-     * Returns one profile in order to be displayed
-     * @param profileDTO the profile to be displayed
-     * @return the profile DTO
-     * @author Miruna
-     */
-    @Override
-    public ProfileDTO getProfile(ProfileDTO profileDTO) {
-        Profile profile = profileRepository.getOne(profileDTO.getId());
-
-        return dtoMapping.getDTOFromProfile(profile);
-    }
-
-    /**
      * Sets the status to false = inactive
      * @param profileDTO the profile that will be "deleted"
      * @return the profile DTO
      * @author Miruna
      */
-    @Override
-    public void deleteProfile(ProfileDTO profileDTO) {
+    public void deactivate(ProfileDTO profileDTO) {
         Profile profile = profileRepository.getOne(profileDTO.getId());
 
         if(profile != null) {
             profile.setStatus(false);
             profileRepository.flush();
         }
+    }
+
+    public void assignRegion(ProfileDTO profileDTO) {
+        profileRepository.findById(profileDTO.getId()).ifPresent(profile -> {
+            Profile profileToAssign = dtoMapping.getProfileFromProfileDTO(profileDTO);
+            profile.setRegion(profileToAssign.getRegion());
+            profileRepository.save(profile);
+        });
+    }
+
+    public void assignConsultingLevel(ProfileDTO profileDTO) {
+        profileRepository.findById(profileDTO.getId()).ifPresent(profile -> {
+            Profile profileToAssign = dtoMapping.getProfileFromProfileDTO(profileDTO);
+            profile.setConsultingLevel(profileToAssign.getConsultingLevel());
+            profileRepository.save(profile);
+        });
+    }
+
+    public void assignSkillProfile(ProfileDTO profileDTO) {
+        profileRepository.findById(profileDTO.getId()).ifPresent(profile -> {
+            Profile profileToAssign = dtoMapping.getProfileFromProfileDTO(profileDTO);
+            profile.setSkillProfiles(profileToAssign.getSkillProfiles());
+            profileRepository.save(profile);
+        });
     }
 }
