@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -21,20 +22,25 @@ public class ProjectService {
     @Autowired
     private DtoMapping dtoMapping;
 
-    public List<Project> findAll()
-    {
-        return projectRepository.findAll();
+    public List<ProjectDto> findAll() {
+        return projectRepository.findAll().stream().map(dtoMapping::projectToDto).collect(Collectors.toList());
+    }
+
+    public ProjectDto findById(Integer id){
+        if (projectRepository.findById(id).isPresent())
+            return dtoMapping.projectToDto(projectRepository.findById(id).get());
+        return null;
     }
 
     //todo admin only
-    public ProjectDto save(ProjectDto projectDto){
+    public ProjectDto save(ProjectDto projectDto) {
         Project project = dtoMapping.dtoToProject(projectDto);
         project = projectRepository.save(project);
         return dtoMapping.projectToDto(project);
     }
 
     //todo admin only
-    public void deactivate(ProjectDto projectDto){
+    public void deactivate(ProjectDto projectDto) {
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
             project.setStatus(false);
             projectRepository.save(project); // update through save
@@ -42,7 +48,7 @@ public class ProjectService {
     }
 
     //todo admin only
-    public ProjectDto update(ProjectDto projectDto){
+    public ProjectDto update(ProjectDto projectDto) {
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
             Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setName(projectnew.getName());
@@ -53,7 +59,7 @@ public class ProjectService {
             project.setIndustry(projectnew.getIndustry());
             projectRepository.save(project);
         });
-        if(projectRepository.findById(projectDto.getId()).isPresent()){
+        if (projectRepository.findById(projectDto.getId()).isPresent()) {
             return dtoMapping.projectToDto(projectRepository.findById(projectDto.getId()).get());
         }
         return null;
@@ -61,7 +67,7 @@ public class ProjectService {
 
     //todo admin only
     //update on custommer
-    public void assignCustomer(ProjectDto projectDto){
+    public void assignCustomer(ProjectDto projectDto) {
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
             Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setCustomer(projectnew.getCustomer());
@@ -71,14 +77,13 @@ public class ProjectService {
 
     //todo admin only
     //update on industry
-    public void assignIndustry(ProjectDto projectDto){
+    public void assignIndustry(ProjectDto projectDto) {
         projectRepository.findById(projectDto.getId()).ifPresent(project -> {
             Project projectnew = dtoMapping.dtoToProject(projectDto);
             project.setIndustry(projectnew.getIndustry());
             projectRepository.save(project);
         });
     }
-
 
 
 }

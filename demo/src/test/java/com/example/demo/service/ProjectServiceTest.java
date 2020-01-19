@@ -23,15 +23,5 @@ class ProjectServiceTest {
     @Test
     void findAll() {
 
-        List<Project> result = projectService.findAll();
-
-
-        Gson gson = new Gson();
-        ProjectDto projectDto = new ProjectDto("testname","testDescription",true, (long) 7,1,1);
-        System.out.println("----------------------");
-        System.out.println(gson.toJson(projectDto));
-        System.out.println("----------------------");
-        assertEquals(1, result.size());
-
     }
 }

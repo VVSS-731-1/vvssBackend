@@ -2,13 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.service.ProjectService;
 import com.example.demo.service.dto.ProjectDto;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/project")
@@ -16,6 +16,24 @@ public class ProjectRestController {
 
     @Autowired
     private ProjectService projectService;
+
+
+    @GetMapping("/getall")
+    public ResponseEntity<String> getAll(){
+        Gson gson = new Gson();
+        String response = gson.toJson(projectService.findAll());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<String> getById(@PathVariable("id") int id){
+        Gson gson = new Gson();
+        if(projectService.findById(id) != null) {
+            String response = gson.toJson(projectService.findById(id));
+            return ResponseEntity.ok().body(response);
+        }
+        return ResponseEntity.badRequest().body("No Project with given id");
+    }
 
     @PostMapping("/add") //optional consumes = "application/json" produces = "application/json"
     public ResponseEntity<String> saveProject(@RequestBody ProjectDto projectDto){
