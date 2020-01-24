@@ -38,7 +38,7 @@ public class User {
     @JoinTable(name = "user_projects",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
-    private List<Project> projects;
+        private List<Project> projects;
 
     @Column
     private Boolean status;
@@ -52,4 +52,7 @@ public class User {
     private Set<User> supervising = new HashSet<>();
 
 
+    public boolean isSupervisor() {
+        return supervising.size() > 0;
+    }
 }

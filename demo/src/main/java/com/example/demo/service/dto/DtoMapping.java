@@ -5,10 +5,8 @@ import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class DtoMapping {
@@ -34,7 +32,6 @@ public class DtoMapping {
 
     @Autowired
     private CustomerRepository customerRepository;
-
 
     private DtoMapping() {
 
@@ -261,4 +258,63 @@ public class DtoMapping {
         return industryDto;
     }
 
+    public UserDTO  userToDTO(User user, Boolean setSupervisor) {
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setAdmin(user.getAdmin());
+        userDTO.setStatus(user.getStatus());
+
+        if (setSupervisor) {
+            userDTO.setSupervisor(userToDTO(user.getSupervisor(), false));
+        }
+
+        userDTO.setProjects(user.getProjects().stream()
+                .map(project -> projectToDto(project))
+                .collect(Collectors.toList()));
+
+        userDTO.setSupervising(user.getSupervising().stream()
+                .map(u -> userToDTO(u, false))
+                .collect(Collectors.toSet()));
+
+        return userDTO;
+    }
+
+    public UserDTO  userToDTO(User user) {
+        return userToDTO(user, true);
+    }
+
+    public User dtoToUser(UserDTO userDTO, Boolean setSupervisor) {
+        User user = new User();
+
+        user.setId(userDTO.getId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setAdmin(userDTO.getAdmin());
+        user.setStatus(userDTO.getStatus());
+
+        if (setSupervisor) {
+            user.setSupervisor(dtoToUser(userDTO.getSupervisor(), false));
+        }
+
+        user.setProjects(userDTO.getProjects().stream()
+                .map(project -> dtoToProject(project))
+                .collect(Collectors.toList()));
+
+        user.setSupervising(userDTO.getSupervising().stream()
+                .map(u -> dtoToUser(u, false))
+                .collect(Collectors.toSet()));
+
+        return user;
+    }
+
+    public User dtoToUser(UserDTO userDTO) {
+        return dtoToUser(userDTO, true);
+    }
 }
