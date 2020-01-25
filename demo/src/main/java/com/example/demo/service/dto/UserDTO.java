@@ -12,6 +12,7 @@ public class UserDTO {
     private String lastName;
     private String username;
     private String password;
+    private Integer counter;
     private String email;
     private Boolean admin;
     private List<ProjectDto> projects;

@@ -269,6 +269,7 @@ public class DtoMapping {
         userDTO.setEmail(user.getEmail());
         userDTO.setAdmin(user.getAdmin());
         userDTO.setStatus(user.getStatus());
+        userDTO.setCounter(user.getCounter());
 
         if (setSupervisor && user.getSupervisor() != null) {
             userDTO.setSupervisor(userToDTO(user.getSupervisor(), false));
@@ -300,6 +301,7 @@ public class DtoMapping {
         user.setEmail(userDTO.getEmail());
         user.setAdmin(userDTO.getAdmin());
         user.setStatus(userDTO.getStatus());
+        user.setCounter(userDTO.getCounter());
 
         if (setSupervisor) {
             user.setSupervisor(dtoToUser(userDTO.getSupervisor(), false));

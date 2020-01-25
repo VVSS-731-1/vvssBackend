@@ -61,8 +61,8 @@ public class UserService {
         return opt.get();
     }
     
-    public Integer login(String userName, String password) {
-        Optional<User> optUsr = userRepository.findAll()
+    public UserDTO login(String userName, String password) {
+        Optional<UserDTO> optUsr = findAll()
                 .stream()
                 .filter(u -> u.getUsername() == userName)
                 .findFirst();
@@ -71,33 +71,30 @@ public class UserService {
         if (!optUsr.isPresent())
             return null;
 
-        User user = optUsr.get();
+        UserDTO user = optUsr.get();
 
         //user dezactivat
         if (!user.getStatus())
-            return -1;
+            return null;
 
         // parola gresita
         if (user.getPassword() != password) {
             if (user.getCounter() == null || user.getCounter() == 0) {
                 user.setCounter(1);
-                userRepository.save(user);
-                return -2;
             }
             else if (user.getCounter() >= 2){
                 user.setCounter(0);
                 user.setStatus(false);
-                userRepository.save(user);
-                return -3;
             }
             else {
                 user.setCounter(user.getCounter() + 1);
-                userRepository.save(user);
-                return -2;
             }
+
+            save(user);
+            return null;
         }
 
-        return user.getId();
+        return user;
     }
 
 
