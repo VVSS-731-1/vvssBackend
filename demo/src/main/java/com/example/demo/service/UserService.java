@@ -32,10 +32,6 @@ public class UserService {
 
     private UserDTO userDTO;
 
-    public UserService(UserDTO userDTO) {
-        this.userDTO = userDTO;
-    }
-
     public List<UserDTO> findAll() {
         return userRepository.findAll()
             .stream()
@@ -55,15 +51,27 @@ public class UserService {
         User user = userRepository.save(dtoMapping.dtoToUser(userDTO));
         return dtoMapping.userToDTO(user);
     }
+    
+    public Integer login(String userName, String password) {
+        Optional<User> user = userRepository.findAll()
+                .stream()
+                .filter(u -> u.getUsername() == userName && u.getPassword() == password)
+                .findFirst();
+        if (user.isPresent()) {
+            return user.get().getId();
+        }
 
-    public ProfileDTO updateProfile(ProfileDTO profileDTO) {
-        return profileService.updateProfile(profileDTO);
+        return null;
     }
+
 
     public void deactivate(ProfileDTO profileDTO) {
         profileService.deactivate(profileDTO);
     }
 
+    public ProfileDTO updateProfile(ProfileDTO profileDTO) {
+        return profileService.updateProfile(profileDTO);
+    }
 
     public List<UserDTO> findAllSupervisors() {
         return userRepository.findAll()

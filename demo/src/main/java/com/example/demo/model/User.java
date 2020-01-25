@@ -43,6 +43,8 @@ public class User {
     @Column
     private Boolean status;
 
+    @Column
+    private String password;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supervisor_id")
