@@ -207,8 +207,8 @@ public class DtoMapping {
         project.setDescription(projectDto.getDescription());
         project.setDuration(projectDto.getDuration());
         project.setStatus(projectDto.getStatus());
-        customerRepository.findById(projectDto.getCustomerId()).ifPresent(project::setCustomer);
-        industryRepository.findById(projectDto.getIndustryId()).ifPresent(project::setIndustry);
+        project.setIndustry(dtoToIndustry(projectDto.getIndustry()));
+        project.setCustomer(dtoToCustomer(projectDto.getCustomer()));
         return project;
     }
 
@@ -219,8 +219,8 @@ public class DtoMapping {
         projectDto.setDescription(project.getDescription());
         projectDto.setDuration(project.getDuration());
         projectDto.setStatus(project.getStatus());
-        projectDto.setCustomerId(project.getCustomer().getId());
-        projectDto.setIndustryId(project.getIndustry().getId());
+        projectDto.setCustomer(customerToDto(project.getCustomer()));
+        projectDto.setIndustry(industryToDto(project.getIndustry()));
         return projectDto;
     }
 

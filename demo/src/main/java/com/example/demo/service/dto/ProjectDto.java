@@ -9,18 +9,18 @@ public class ProjectDto {
     private String description;
     private Boolean status;
     private Long duration;
-    private Integer industryId;
-    private Integer customerId;
+    private IndustryDto industry;
+    private CustomerDto customer;
 
     public ProjectDto() {
     }
 
-    public ProjectDto(String name, String description, Boolean status, Long duration, Integer industryId, Integer customerId) {
+    public ProjectDto(String name, String description, Boolean status, Long duration, IndustryDto industry, CustomerDto customer) {
         this.name = name;
         this.description = description;
         this.status = status;
         this.duration = duration;
-        this.industryId = industryId;
-        this.customerId = customerId;
+        this.industry = industry;
+        this.customer = customer;
     }
 }
