@@ -55,7 +55,6 @@ public class User {
     @OneToMany(mappedBy = "supervisor")
     private Set<User> supervising = new HashSet<>();
 
-
     public boolean isSupervisor() {
         return supervising.size() > 0;
     }

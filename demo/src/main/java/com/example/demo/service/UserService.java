@@ -53,15 +53,37 @@ public class UserService {
     }
     
     public Integer login(String userName, String password) {
-        Optional<User> user = userRepository.findAll()
+        Optional<User> optUsr = userRepository.findAll()
                 .stream()
-                .filter(u -> u.getUsername() == userName && u.getPassword() == password)
+                .filter(u -> u.getUsername() == userName)
                 .findFirst();
-        if (user.isPresent()) {
-            return user.get().getId();
+
+        // user inexistent
+        if (!optUsr.isPresent())
+            return null;
+
+        User user = optUsr.get();
+
+        //user dezactivat
+        if (!user.getStatus())
+            return null;
+
+        // parola gresita
+        if (user.getPassword() != password) {
+            if (user.getCounter() == null || user.getCounter() == 0) {
+                user.setCounter(1);
+            }
+            else if (user.getCounter() == 3){
+                user.setCounter(0);
+                user.setStatus(false);
+            }
+            else {
+                user.setCounter(user.getCounter() + 1);
+            }
+            return null;
         }
 
-        return null;
+        return user.getId();
     }
 
 
