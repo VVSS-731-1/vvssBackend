@@ -4,10 +4,12 @@ import com.example.demo.model.Project;
 import com.example.demo.repository.ProjectRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.ProjectDto;
+import com.example.demo.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -85,4 +87,16 @@ public class ProjectService {
         });
     }
 
+
+    public List<UserDTO> getUsers(Integer id){
+        if (projectRepository.findById(id).isPresent()){
+            Project project = projectRepository.findById(id).get();
+            List<UserDTO> users;
+            if (!project.getUsers().isEmpty()){
+                return project.getUsers().stream().map(dtoMapping::userToDTO).collect(Collectors.toList());
+            }
+            return new ArrayList<>();
+        }
+        return new ArrayList<>();
+    }
 }

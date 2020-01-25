@@ -270,7 +270,7 @@ public class DtoMapping {
         userDTO.setAdmin(user.getAdmin());
         userDTO.setStatus(user.getStatus());
 
-        if (setSupervisor) {
+        if (setSupervisor && user.getSupervisor() != null) {
             userDTO.setSupervisor(userToDTO(user.getSupervisor(), false));
         }
 

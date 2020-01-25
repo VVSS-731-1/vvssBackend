@@ -69,4 +69,10 @@ public class ProjectRestController {
 
     }
 
+    @GetMapping("/get/users/{id}")
+    public ResponseEntity<String> getUsers(@PathVariable("id") int id){
+        Gson gson = new Gson();
+        return ResponseEntity.ok().body(gson.toJson(projectService.getUsers(id)));
+    }
+
 }

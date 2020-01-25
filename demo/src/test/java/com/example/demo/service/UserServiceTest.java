@@ -21,8 +21,5 @@ class UserServiceTest {
     @Test
     void findAll() {
 
-        List<User> users = userService.findAll();
-        assertEquals(users.size(), 10);
-
     }
 }
