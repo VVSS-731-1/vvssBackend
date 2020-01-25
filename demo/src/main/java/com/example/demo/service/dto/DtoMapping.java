@@ -265,6 +265,7 @@ public class DtoMapping {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setAdmin(user.getAdmin());
         userDTO.setStatus(user.getStatus());
@@ -295,6 +296,7 @@ public class DtoMapping {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
         user.setAdmin(userDTO.getAdmin());
         user.setStatus(userDTO.getStatus());

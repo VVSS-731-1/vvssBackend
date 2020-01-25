@@ -11,6 +11,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String username;
+    private String password;
     private String email;
     private Boolean admin;
     private List<ProjectDto> projects;
@@ -23,5 +24,9 @@ public class UserDTO {
 
     public UserDTO() {
 
+    }
+
+    private Boolean isSupervisor() {
+        return supervising != null && supervising.size() > 0;
     }
 }
