@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,15 +33,20 @@ public class User {
     @Column(name = "is_admin")
     private Boolean admin;
 
+    @Column
+    private Boolean status;
+
+    @Column
+    private String password;
+
+    @Column
+    private Integer counter;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_projects",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"))
     private List<Project> projects;
-
-    @Column
-    private Boolean status;
-
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "supervisor_id")
@@ -50,6 +54,5 @@ public class User {
 
     @OneToMany(mappedBy = "supervisor")
     private Set<User> supervising = new HashSet<>();
-
 
 }
