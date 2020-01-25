@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileRestController {
@@ -29,6 +31,21 @@ public class ProfileRestController {
             return ResponseEntity.ok().body(response);
         }
         return ResponseEntity.badRequest().body("No Profile with given id");
+    }
+
+    @GetMapping("/get_profile/{username}")
+    public ResponseEntity<String> getByUsername(@PathVariable("username") String username) {
+        Gson gson = new Gson();
+
+        List<ProfileDTO> profileDTOs = profileService.findByUsername(username);
+        if(!profileDTOs.isEmpty()) {
+            String response = gson.toJson(profileDTOs);
+            return ResponseEntity.ok().body(response);
+        }
+        else {
+            return ResponseEntity.badRequest().body("No profiles found with given username.");
+        }
+
     }
     
     @PostMapping("/add") 
