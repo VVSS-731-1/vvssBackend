@@ -51,6 +51,15 @@ public class UserService {
         User user = userRepository.save(dtoMapping.dtoToUser(userDTO));
         return dtoMapping.userToDTO(user);
     }
+
+    public UserDTO findByName(String userName) {
+        Optional<UserDTO> opt = findAll().stream().filter(u -> u.getUsername() == userName).findFirst();
+
+        if (!opt.isPresent())
+            return null;
+
+        return opt.get();
+    }
     
     public Integer login(String userName, String password) {
         Optional<User> optUsr = userRepository.findAll()
@@ -66,21 +75,26 @@ public class UserService {
 
         //user dezactivat
         if (!user.getStatus())
-            return null;
+            return -1;
 
         // parola gresita
         if (user.getPassword() != password) {
             if (user.getCounter() == null || user.getCounter() == 0) {
                 user.setCounter(1);
+                userRepository.save(user);
+                return -2;
             }
-            else if (user.getCounter() == 3){
+            else if (user.getCounter() >= 2){
                 user.setCounter(0);
                 user.setStatus(false);
+                userRepository.save(user);
+                return -3;
             }
             else {
                 user.setCounter(user.getCounter() + 1);
+                userRepository.save(user);
+                return -2;
             }
-            return null;
         }
 
         return user.getId();
