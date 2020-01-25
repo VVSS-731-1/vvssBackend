@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -48,6 +49,19 @@ public class ProfileService {
 
         return null;
     }
+
+    public List<ProfileDTO> findByUsername(String username) {
+
+        List<Profile> profiles = profileRepository.findAll().stream()
+                .filter(profile -> profile.getUser().getUsername().equals(username)).collect(Collectors.toList());
+
+        if(!profiles.isEmpty()) {
+            return profiles.stream().map(profile -> dtoMapping.getDTOFromProfile(profile)).collect(Collectors.toList());
+        }
+
+        return null;
+    }
+
     /**
      * Insert new profile into DB
      * @param profileDTO profile to be inserted
