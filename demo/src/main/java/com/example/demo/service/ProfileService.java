@@ -1,10 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.model.*;
-import com.example.demo.repository.*;
-import com.example.demo.service.dto.ProfileDTO;
+import com.example.demo.repository.ProfileRepository;
+import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.dto.DtoMapping;
-import com.example.demo.service.interfaces.IProfileService;
+import com.example.demo.service.dto.ProfileDTO;
+import com.example.demo.service.dto.SkillDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -21,15 +21,6 @@ public class ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
-
-    @Autowired
-    private RegionRepository regionRepository;
-
-    @Autowired
-    private ConsultingLevelRepository consultingLevelRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -50,13 +41,14 @@ public class ProfileService {
         return null;
     }
 
-    public List<ProfileDTO> findByUsername(String username) {
+    public ProfileDTO findByUsername(String username) {
 
-        List<Profile> profiles = profileRepository.findAll().stream()
-                .filter(profile -> profile.getUser().getUsername().equals(username)).collect(Collectors.toList());
+       Profile profileToReturn = profileRepository.findAll().stream()
+                .filter(profile -> profile.getUser().getUsername().equals(username) && profile.getStatus())
+                .findFirst().get();
 
-        if(!profiles.isEmpty()) {
-            return profiles.stream().map(profile -> dtoMapping.getDTOFromProfile(profile)).collect(Collectors.toList());
+        if(profileToReturn != null){
+            return dtoMapping.getDTOFromProfile(profileToReturn);
         }
 
         return null;
@@ -83,9 +75,9 @@ public class ProfileService {
      */
     public ProfileDTO updateProfile(ProfileDTO profileDTO) {
         Profile profile = profileRepository.getOne(profileDTO.getId());
-        Region region = regionRepository.getOne(profileDTO.getRegionId());
-        ConsultingLevel consultingLevel = consultingLevelRepository.getOne(profileDTO.getConsultingLevelId());
-        User user = userRepository.getOne(profileDTO.getUserId());
+        Region region = dtoMapping.getRegionFromDTO(profileDTO.getRegion());
+        ConsultingLevel consultingLevel = dtoMapping.getConsultingLevelFromDTO(profileDTO.getConsultingLevel());
+        User user = dtoMapping.dtoToUser(profileDTO.getUser());
         byte[] image = profileDTO.getImageURL();
 
         profile.setRegion(region);
@@ -93,11 +85,11 @@ public class ProfileService {
         profile.setUser(user);
         profile.setImage(image);
 
-        Map<Integer, Integer> skillIds = profileDTO.getSkillIds();
+        Map<SkillDTO, Integer> skillIds = profileDTO.getSkillLevels();
         Set<SkillProfile> skillProfiles = new HashSet<>();
 
-        for(Map.Entry<Integer, Integer> entry : skillIds.entrySet()) {
-            Skill skill = skillRepository.getOne(entry.getKey());
+        for(Map.Entry<SkillDTO, Integer> entry : skillIds.entrySet()) {
+            Skill skill = dtoMapping.getSkillFromDto(entry.getKey());
             SkillProfile skillProfile = new SkillProfile();
 
             skillProfile.setSkill_id(skill);

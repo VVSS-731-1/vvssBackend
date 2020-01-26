@@ -10,15 +10,15 @@ public class SkillDTO implements Serializable {
     private Integer id;
     private String name;
     private Boolean status;
-    private Integer skillAreaId;
+    private SkillAreaDTO skillArea;
 
     public SkillDTO() {
     }
 
-    public SkillDTO(Integer id, String name, Boolean status, Integer skillAreaId) {
+    public SkillDTO(Integer id, String name, Boolean status, SkillAreaDTO skillArea) {
         this.id = id;
         this.name = name;
         this.status = status;
-        this.skillAreaId = skillAreaId;
+        this.skillArea = skillArea;
     }
 }

@@ -1,37 +1,16 @@
 package com.example.demo.service.dto;
 
 import com.example.demo.model.*;
-import com.example.demo.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class DtoMapping {
-
-
-    @Autowired
-    private RegionRepository regionRepository;
-
-    @Autowired
-    private ConsultingLevelRepository consultingLevelRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private SkillRepository skillRepository;
-
-    @Autowired
-    private SkillAreaRepository skillAreaRepository;
-
-    @Autowired
-    private IndustryRepository industryRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     private DtoMapping() {
 
@@ -51,8 +30,8 @@ public class DtoMapping {
             profile.setId(profileDTO.getId());
 
             Set<SkillProfile> skills = new HashSet<>();
-            for (Map.Entry<Integer, Integer> entry : profileDTO.getSkillIds().entrySet()) {
-                Skill skill = skillRepository.getOne(entry.getKey());
+            for (Map.Entry<SkillDTO, Integer> entry : profileDTO.getSkillLevels().entrySet()) {
+                Skill skill = getSkillFromDto(entry.getKey());
                 SkillProfile skillProfile = new SkillProfile();
 
                 skillProfile.setSkill_id(skill);
@@ -62,9 +41,9 @@ public class DtoMapping {
                 skills.add(skillProfile);
             }
             profile.setSkillProfiles(skills);
-            regionRepository.findById(profileDTO.getRegionId()).ifPresent(profile::setRegion);
-            consultingLevelRepository.findById(profileDTO.getConsultingLevelId()).ifPresent(profile::setConsultingLevel);
-            userRepository.findById(profileDTO.getUserId()).ifPresent(profile::setUser);
+            profile.setRegion(getRegionFromDTO(profileDTO.getRegion()));
+            profile.setConsultingLevel(getConsultingLevelFromDTO(profileDTO.getConsultingLevel()));
+            profile.setUser(dtoToUser(profileDTO.getUser()));
             profile.setImage(profileDTO.getImageURL());
             profile.setStatus(profileDTO.getStatus());
         }
@@ -89,9 +68,9 @@ public class DtoMapping {
             for (SkillProfile skillProfile : profile.getSkillProfiles()) {
                 skills.put(skillProfile.getSkill_id().getId(), skillProfile.getLevel());
             }
-            profileDTO.setRegionId(profile.getRegion().getId());
-            profileDTO.setConsultingLevelId(profile.getConsultingLevel().getId());
-            profileDTO.setUserId(profile.getUser().getId());
+            profileDTO.setRegion(getDTOFromRegion(profile.getRegion()));
+            profileDTO.setConsultingLevel(getDTOFromConsultingLevel(profile.getConsultingLevel()));
+            profileDTO.setUser(userToDTO(profile.getUser()));
             profileDTO.setImageURL(profile.getImage());
             profileDTO.setStatus(profile.getStatus());
         }
@@ -157,7 +136,7 @@ public class DtoMapping {
             skillDTO.setId(skill.getId());
             skillDTO.setName(skill.getName());
             skillDTO.setStatus(skill.getStatus());
-            skillDTO.setSkillAreaId(skill.getSkillArea().getId());
+            skillDTO.setSkillArea(getDTOFromSkillArea(skill.getSkillArea()));
         }
 
         return skillDTO;
@@ -170,7 +149,7 @@ public class DtoMapping {
             skill.setId(skillDTO.getId());
             skill.setName(skillDTO.getName());
             skill.setStatus(skillDTO.getStatus());
-            skillAreaRepository.findById(skillDTO.getSkillAreaId()).ifPresent(skill::setSkillArea);
+            skill.setSkillArea(getSkillAreaFromDTO(skillDTO.getSkillArea()));
         }
 
         return skill;
