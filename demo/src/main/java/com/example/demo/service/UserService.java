@@ -53,7 +53,7 @@ public class UserService {
     }
 
     public UserDTO findByName(String userName) {
-        Optional<UserDTO> opt = findAll().stream().filter(u -> u.getUsername() == userName).findFirst();
+        Optional<UserDTO> opt = findAll().stream().filter(u -> u.getUsername().equals(userName)).findFirst();
 
         if (!opt.isPresent())
             return null;
@@ -61,10 +61,10 @@ public class UserService {
         return opt.get();
     }
     
-    public UserDTO login(String userName, String password) {
+    public UserDTO login(String username, String password) {
         Optional<UserDTO> optUsr = findAll()
                 .stream()
-                .filter(u -> u.getUsername() == userName)
+                .filter(u -> u.getUsername().equals(username))
                 .findFirst();
 
         // user inexistent
@@ -78,7 +78,7 @@ public class UserService {
             return null;
 
         // parola gresita
-        if (user.getPassword() != password) {
+        if (!user.getPassword().equals(password)) {
             if (user.getCounter() == null || user.getCounter() == 0) {
                 user.setCounter(1);
             }

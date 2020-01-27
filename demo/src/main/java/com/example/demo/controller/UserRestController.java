@@ -22,7 +22,7 @@ public class UserRestController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/getbyid/{id}")
     public ResponseEntity<String> getById(@PathVariable("id") int id) {
         Gson gson = new Gson();
         if (userService.findById(id) != null) {
@@ -32,7 +32,7 @@ public class UserRestController {
         return ResponseEntity.badRequest().body("No User with given id");
     }
 
-    @GetMapping("/get/{userName}")
+    @GetMapping("/getbyname/{userName}")
     public ResponseEntity<String> getByName(@PathVariable("userName") String userName) {
         Gson gson = new Gson();
         UserDTO user = userService.findByName(userName);
@@ -40,7 +40,7 @@ public class UserRestController {
             String response = gson.toJson(user);
             return ResponseEntity.ok().body(response);
         }
-        return ResponseEntity.badRequest().body("No User with given id");
+        return ResponseEntity.badRequest().body("No User with given username");
     }
 
     @PostMapping("/add") //optional consumes = "application/json" produces = "application/json"
@@ -62,10 +62,11 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String userName, @RequestParam String password) {
-        UserDTO response = userService.login(userName, password);
-        if (response != null) {
-            return ResponseEntity.ok().body("User login successful!");
+    public ResponseEntity<String> login(@RequestBody UserDTO credential) {
+        UserDTO userDTO = userService.login(credential.getUsername(), credential.getPassword());
+        if (userDTO != null) {
+            String response = new Gson().toJson(userDTO);
+            return ResponseEntity.ok().body(response);
         }
         return ResponseEntity.badRequest().body("User login failed!");
     }
