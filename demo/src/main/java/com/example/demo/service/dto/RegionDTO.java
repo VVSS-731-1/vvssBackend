@@ -8,16 +8,16 @@ import java.io.Serializable;
 public class RegionDTO implements Serializable {
 
     private Integer id;
-    private String regionName;
+    private String name;
     private Boolean status;
 
     public RegionDTO() {
 
     }
 
-    public RegionDTO(Integer id, String regionName, Boolean status) {
+    public RegionDTO(Integer id, String name, Boolean status) {
         this.id = id;
-        this.regionName = regionName;
+        this.name = name;
         this.status = status;
     }
 }

@@ -13,12 +13,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-/**
- * Document me.
- *
- * @author msg systems AG; User Name.
- * @since 19.1.2
- */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ConfigCtrl implements Filter {
