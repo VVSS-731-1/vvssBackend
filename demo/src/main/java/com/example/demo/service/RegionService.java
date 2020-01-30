@@ -49,4 +49,21 @@ public class RegionService {
         }
     }
 
+    public RegionDTO regionUpdate(RegionDTO regionDTO) {
+        regionRepository.findById(regionDTO.getId()).ifPresent(region -> {
+            Region newRegion = dtoMapping.getRegionFromDTO(regionDTO);
+
+            region.setName(newRegion.getName());
+            region.setStatus(newRegion.getStatus());
+
+            regionRepository.save(region);
+        });
+
+        if(regionRepository.findById(regionDTO.getId()).isPresent()) {
+            return dtoMapping.getDTOFromRegion(regionRepository.findById(regionDTO.getId()).get());
+        }
+
+        return null;
+    }
+
 }

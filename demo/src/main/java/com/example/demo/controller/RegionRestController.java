@@ -49,4 +49,15 @@ public class RegionRestController {
         regionService.deactivateRegion(regionDTO);
         return ResponseEntity.ok().body("Region deactivated!");
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateRegion(@RequestBody RegionDTO regionDTO) {
+        RegionDTO response = regionService.regionUpdate(regionDTO);
+
+        if(response != null) {
+            return ResponseEntity.ok().body("Region updated");
+        }
+
+        return ResponseEntity.badRequest().body("Region update failed!");
+    }
 }
