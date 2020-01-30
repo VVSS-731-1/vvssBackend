@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.*;
 import com.example.demo.repository.ProfileRepository;
+import com.example.demo.repository.SkillProfileRepository;
 import com.example.demo.repository.SkillRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.ProfileDTO;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -26,11 +28,28 @@ public class ProfileService {
     private SkillRepository skillRepository;
 
     @Autowired
+    private SkillProfileRepository skillProfileRepository;
+
+    @Autowired
     DtoMapping dtoMapping;
 
-    public List<Profile> findAll()
+    public List<ProfileDTO> findAll()
     {
-        return profileRepository.findAll();
+        List<Profile> profiles = profileRepository.findAll();
+        List<SkillProfile> skillProfiles = skillProfileRepository.findAll();
+
+        for(Profile p : profiles) {
+
+            for(SkillProfile sp : skillProfiles) {
+                if(p.getId().equals(sp.getProfile_id().getId())) {
+                    p.getSkillProfiles().add(sp);
+                }
+            }
+        }
+
+        List<ProfileDTO> profileDTOS = profiles.stream().map(p -> dtoMapping.getDTOFromProfile(p))
+                .collect(Collectors.toList());
+        return profileDTOS;
     }
 
     public ProfileDTO findById(Integer id) {
@@ -43,7 +62,8 @@ public class ProfileService {
 
     public ProfileDTO findByUsername(String username) {
 
-       Profile profileToReturn = profileRepository.findAll().stream()
+       List<Profile> profiles = profileRepository.findAll();
+       Profile profileToReturn = profiles.stream()
                 .filter(profile -> profile.getUser().getUsername().equals(username) && profile.getStatus())
                 .findFirst().get();
 
@@ -85,19 +105,19 @@ public class ProfileService {
         profile.setUser(user);
         profile.setImage(image);
 
-        Map<SkillDTO, Integer> skillIds = profileDTO.getSkillLevels();
-        Set<SkillProfile> skillProfiles = new HashSet<>();
-
-        for(Map.Entry<SkillDTO, Integer> entry : skillIds.entrySet()) {
-            Skill skill = dtoMapping.getSkillFromDto(entry.getKey());
-            SkillProfile skillProfile = new SkillProfile();
-
-            skillProfile.setSkill_id(skill);
-            skillProfile.setProfile_id(profile);
-            skillProfile.setLevel(entry.getValue());
-
-            skillProfiles.add(skillProfile);
-        }
+        Set<SkillProfile> skillProfiles = profileDTO.getSkillProfiles().stream().map(s-> dtoMapping.dtoToSkillProfile(s)).collect(Collectors.toSet());
+//        Set<SkillProfile> skillProfiles = new HashSet<>();
+//
+//        for(Map.Entry<SkillDTO, Integer> entry : skillIds.entrySet()) {
+//            Skill skill = dtoMapping.getSkillFromDto(entry.getKey());
+//            SkillProfile skillProfile = new SkillProfile();
+//
+//            skillProfile.setSkill_id(skill);
+//            skillProfile.setProfile_id(profile);
+//            skillProfile.setLevel(entry.getValue());
+//
+//            skillProfiles.add(skillProfile);
+//        }
 
         profile.setSkillProfiles(skillProfiles);
         profileRepository.save(profile);

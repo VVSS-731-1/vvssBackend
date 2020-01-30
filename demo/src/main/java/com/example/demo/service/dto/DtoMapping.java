@@ -1,6 +1,7 @@
 package com.example.demo.service.dto;
 
 import com.example.demo.model.*;
+import com.example.demo.repository.SkillProfileRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -29,18 +30,20 @@ public class DtoMapping {
         if (profileDTO != null) {
             profile.setId(profileDTO.getId());
 
-            Set<SkillProfile> skills = new HashSet<>();
-            for (Map.Entry<SkillDTO, Integer> entry : profileDTO.getSkillLevels().entrySet()) {
-                Skill skill = getSkillFromDto(entry.getKey());
-                SkillProfile skillProfile = new SkillProfile();
+//            Set<SkillProfile> skills = new HashSet<>();
+//            for (Map.Entry<SkillDTO, Integer> entry : profileDTO.getSkillLevels().entrySet()) {
+//                Skill skill = getSkillFromDto(entry.getKey());
+//                SkillProfile skillProfile = new SkillProfile();
+//
+//                skillProfile.setSkill_id(skill);
+//                skillProfile.setProfile_id(profile);
+//                skillProfile.setLevel(entry.getValue());
+//
+//                skills.add(skillProfile);
+//            }
 
-                skillProfile.setSkill_id(skill);
-                skillProfile.setProfile_id(profile);
-                skillProfile.setLevel(entry.getValue());
-
-                skills.add(skillProfile);
-            }
-            profile.setSkillProfiles(skills);
+            Set<SkillProfile> skillProfiles = profileDTO.getSkillProfiles().stream().map(this::dtoToSkillProfile).collect(Collectors.toSet());
+            profile.setSkillProfiles(skillProfiles);
             profile.setRegion(getRegionFromDTO(profileDTO.getRegion()));
             profile.setConsultingLevel(getConsultingLevelFromDTO(profileDTO.getConsultingLevel()));
             profile.setUser(dtoToUser(profileDTO.getUser()));
@@ -64,10 +67,13 @@ public class DtoMapping {
         if (profile != null) {
             profileDTO.setId(profile.getId());
 
-            Map<Integer, Integer> skills = new HashMap<>();
-            for (SkillProfile skillProfile : profile.getSkillProfiles()) {
-                skills.put(skillProfile.getSkill_id().getId(), skillProfile.getLevel());
-            }
+//            Map<Integer, Integer> skills = new HashMap<>();
+//            for (SkillProfile skillProfile : profile.getSkillProfiles()) {
+//                skills.put(skillProfile.getSkill_id().getId(), skillProfile.getLevel());
+//            }
+
+            Set<SkillProfileDTO> skillProfileDTOS = profile.getSkillProfiles().stream().map(s -> skillProfileToDTO(s)).collect(Collectors.toSet());
+            profileDTO.setSkillProfiles(skillProfileDTOS);
             profileDTO.setRegion(getDTOFromRegion(profile.getRegion()));
             profileDTO.setConsultingLevel(getDTOFromConsultingLevel(profile.getConsultingLevel()));
             profileDTO.setUser(userToDTO(profile.getUser()));
@@ -109,7 +115,7 @@ public class DtoMapping {
 
         if (region != null) {
             regionDTO.setId(region.getId());
-            regionDTO.setRegionName(region.getRegionName());
+            regionDTO.setName(region.getName());
             regionDTO.setStatus(region.getStatus());
         }
 
@@ -122,7 +128,7 @@ public class DtoMapping {
 
         if (regionDTO != null) {
             region.setId(regionDTO.getId());
-            region.setRegionName(regionDTO.getRegionName());
+            region.setName(regionDTO.getName());
             region.setStatus(regionDTO.getStatus());
         }
 
@@ -299,5 +305,28 @@ public class DtoMapping {
 
     public User dtoToUser(UserDTO userDTO) {
         return dtoToUser(userDTO, true);
+    }
+
+    public SkillProfile dtoToSkillProfile(SkillProfileDTO skillProfileDTO) {
+
+        SkillProfile skillProfile = new SkillProfile();
+        if(skillProfileDTO != null) {
+            skillProfile.setSkill_id(getSkillFromDto(skillProfileDTO.skill_id));
+            skillProfile.setProfile_id(getProfileFromProfileDTO(new ProfileDTO()));
+            skillProfile.setLevel(skillProfileDTO.level);
+        }
+        return skillProfile;
+    }
+
+    public SkillProfileDTO skillProfileToDTO(SkillProfile skillProfile) {
+
+        SkillProfileDTO skillProfileDTO = new SkillProfileDTO();
+
+        if(skillProfile != null) {
+            skillProfileDTO.setProfile_id(new ProfileDTO());
+            skillProfileDTO.setSkill_id(getDTOFromSkill(skillProfile.getSkill_id()));
+            skillProfileDTO.setLevel(skillProfile.getLevel());
+        }
+        return skillProfileDTO;
     }
 }

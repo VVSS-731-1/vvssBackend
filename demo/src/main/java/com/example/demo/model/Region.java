@@ -14,7 +14,7 @@ public class Region{
     private Integer id;
 
     @Column(name="name")
-    private String regionName;
+    private String name;
 
     @Column
     private Boolean status;

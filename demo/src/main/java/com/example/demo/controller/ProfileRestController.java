@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileRestController {
@@ -17,7 +19,8 @@ public class ProfileRestController {
     @GetMapping("/getall")
     public ResponseEntity<String> getAll() {
         Gson gson = new Gson();
-        String response = gson.toJson(profileService.findAll());
+        List<ProfileDTO> profileDTOS = profileService.findAll();
+        String response = gson.toJson(profileDTOS);
         return ResponseEntity.ok().body(response);
     }
 
