@@ -9,13 +9,13 @@ public class ProjectDto {
     private String description;
     private Boolean status;
     private Long duration;
-    private IndustryDto industry;
-    private CustomerDto customer;
+    private String industry;
+    private String customer;
 
     public ProjectDto() {
     }
 
-    public ProjectDto(String name, String description, Boolean status, Long duration, IndustryDto industry, CustomerDto customer) {
+    public ProjectDto(String name, String description, Boolean status, Long duration, String industry, String customer) {
         this.name = name;
         this.description = description;
         this.status = status;
