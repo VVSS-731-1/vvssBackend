@@ -53,7 +53,7 @@ public class UserService {
     }
 
     public UserDTO findByName(String userName) {
-        Optional<UserDTO> opt = findAll().stream().filter(u -> u.getUsername().equals(userName)).findFirst();
+        Optional<UserDTO> opt = findAll().stream().filter(u -> u.getUsername().equals(userName) || u.getEmail().equals(userName)).findFirst();
 
         if (!opt.isPresent())
             return null;

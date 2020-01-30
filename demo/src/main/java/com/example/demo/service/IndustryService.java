@@ -5,11 +5,13 @@ import com.example.demo.model.Industry;
 import com.example.demo.repository.IndustryRepository;
 import com.example.demo.service.dto.DtoMapping;
 import com.example.demo.service.dto.IndustryDto;
+import com.example.demo.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +34,14 @@ public class IndustryService {
             return dtoMapping.industryToDto(industryRepository.findById(id).get());
         }
         return null;
+    }
+
+    public IndustryDto findByName(String name){
+        Optional<IndustryDto> optInd = findAll()
+                .stream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst();
+        return optInd.get();
     }
 
     //todo admin only

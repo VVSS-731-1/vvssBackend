@@ -4,11 +4,13 @@ import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.dto.CustomerDto;
 import com.example.demo.service.dto.DtoMapping;
+import com.example.demo.service.dto.IndustryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +31,14 @@ public class CustomerService {
         if (customerRepository.findById(id).isPresent())
             return dtoMapping.customerToDto(customerRepository.findById(id).get());
         return null;
+    }
+
+    public CustomerDto findByName(String name){
+        Optional<CustomerDto> optInd = findAll()
+                .stream()
+                .filter(u -> u.getName().equals(name))
+                .findFirst();
+        return optInd.get();
     }
 
     //todo admin only
