@@ -64,7 +64,7 @@ public class UserService {
     public UserDTO login(String username, String password) {
         Optional<UserDTO> optUsr = findAll()
                 .stream()
-                .filter(u -> u.getUsername().equals(username))
+                .filter(u -> u.getUsername().equals(username) || u.getEmail().equals(username))
                 .findFirst();
 
         // user inexistent
