@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Profile;
+import com.example.demo.service.dto.ProfileDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ class ProfileServiceTest {
     @Test
     void findAll() {
 
-        List<Profile> profiles = profileService.findAll();
+        List<ProfileDTO> profiles = profileService.findAll();
 
         assertEquals(profiles.size(), 3);
 
