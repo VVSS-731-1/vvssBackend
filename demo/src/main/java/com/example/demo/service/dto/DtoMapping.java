@@ -1,7 +1,9 @@
 package com.example.demo.service.dto;
 
 import com.example.demo.model.*;
-import com.example.demo.repository.SkillProfileRepository;
+import com.example.demo.service.CustomerService;
+import com.example.demo.service.IndustryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -12,6 +14,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class DtoMapping {
+    @Autowired
+    private IndustryService industryService;
+
+    @Autowired
+    private CustomerService customerService;
 
     private DtoMapping() {
 
@@ -192,8 +199,8 @@ public class DtoMapping {
         project.setDescription(projectDto.getDescription());
         project.setDuration(projectDto.getDuration());
         project.setStatus(projectDto.getStatus());
-        project.setIndustry(dtoToIndustry(projectDto.getIndustry()));
-        project.setCustomer(dtoToCustomer(projectDto.getCustomer()));
+        project.setIndustry(dtoToIndustry(industryService.findByName(projectDto.getIndustry())));
+        project.setCustomer(dtoToCustomer(customerService.findByName(projectDto.getCustomer())));
         return project;
     }
 
@@ -204,8 +211,8 @@ public class DtoMapping {
         projectDto.setDescription(project.getDescription());
         projectDto.setDuration(project.getDuration());
         projectDto.setStatus(project.getStatus());
-        projectDto.setCustomer(customerToDto(project.getCustomer()));
-        projectDto.setIndustry(industryToDto(project.getIndustry()));
+        projectDto.setCustomer(project.getCustomer().getName());
+        projectDto.setIndustry(project.getIndustry().getName());
         return projectDto;
     }
 
