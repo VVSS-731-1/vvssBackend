@@ -267,13 +267,17 @@ public class DtoMapping {
             userDTO.setSupervisor(userToDTO(user.getSupervisor(), false));
         }
 
-        userDTO.setProjects(user.getProjects().stream()
-                .map(project -> projectToDto(project))
-                .collect(Collectors.toList()));
+        if (user.getProjects() != null){
+            userDTO.setProjects(user.getProjects().stream()
+                    .map(project -> projectToDto(project))
+                    .collect(Collectors.toList()));
+        }
 
-        userDTO.setSupervising(user.getSupervising().stream()
-                .map(u -> userToDTO(u, false))
-                .collect(Collectors.toSet()));
+        if (user.getSupervising() != null){
+            userDTO.setSupervising(user.getSupervising().stream()
+                    .map(u -> userToDTO(u, false))
+                    .collect(Collectors.toSet()));
+        }
 
         return userDTO;
     }
@@ -295,17 +299,21 @@ public class DtoMapping {
         user.setStatus(userDTO.getStatus());
         user.setCounter(userDTO.getCounter());
 
-        if (setSupervisor) {
+        if (setSupervisor && userDTO.getSupervisor() != null) {
             user.setSupervisor(dtoToUser(userDTO.getSupervisor(), false));
         }
 
-        user.setProjects(userDTO.getProjects().stream()
-                .map(project -> dtoToProject(project))
-                .collect(Collectors.toList()));
+        if (userDTO.getProjects()!= null){
+            user.setProjects(userDTO.getProjects().stream()
+                    .map(project -> dtoToProject(project))
+                    .collect(Collectors.toList()));
+        }
 
-        user.setSupervising(userDTO.getSupervising().stream()
-                .map(u -> dtoToUser(u, false))
-                .collect(Collectors.toSet()));
+        if (userDTO.getSupervising()!= null){
+            user.setSupervising(userDTO.getSupervising().stream()
+                    .map(u -> dtoToUser(u, false))
+                    .collect(Collectors.toSet()));
+        }
 
         return user;
     }
