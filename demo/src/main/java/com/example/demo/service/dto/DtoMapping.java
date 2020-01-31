@@ -336,4 +336,17 @@ public class DtoMapping {
         }
         return skillProfileDTO;
     }
+
+    public SkillWrapperDTO skillProfileToWrapperDTO(SkillProfile skillProfile) {
+
+        SkillWrapperDTO skillWrapperDTO = new SkillWrapperDTO();
+
+        if(skillProfile != null) {
+            skillWrapperDTO.setSkill(skillProfile.getSkill_id().getName());
+            skillWrapperDTO.setProfile_id(skillProfile.getProfile_id().getId());
+            skillWrapperDTO.setSkill_level(skillProfile.getLevel());
+        }
+
+        return skillWrapperDTO;
+    }
 }
