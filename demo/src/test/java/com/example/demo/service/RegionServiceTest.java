@@ -29,7 +29,7 @@ public class RegionServiceTest {
     public void getAllRegions() {
 
         Region region = new Region();
-        region.setRegionName("Iasi");
+        region.setName("Iasi");
         region.setStatus(false);
 
 
@@ -37,7 +37,7 @@ public class RegionServiceTest {
 
         List<Region> regions = Arrays.asList(new Region() {{
             setId(1);
-            setRegionName("Cluj");
+            setName("Cluj");
             setStatus(false);
         }});
 

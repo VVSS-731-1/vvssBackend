@@ -51,6 +51,7 @@ public class UserRestController {
 
     @PostMapping("/add") //optional consumes = "application/json" produces = "application/json"
     public ResponseEntity<String> saveUser(@RequestBody UserDTO userDTO) {
+        userDTO.setPassword("123456");
         UserDTO response = userService.save(userDTO);
         if (response != null) {
             return ResponseEntity.ok().body("User saved!");
