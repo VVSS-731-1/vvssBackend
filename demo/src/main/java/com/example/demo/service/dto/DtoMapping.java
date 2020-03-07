@@ -1,14 +1,11 @@
 package com.example.demo.service.dto;
 
 import com.example.demo.model.*;
-import com.example.demo.service.CustomerService;
-import com.example.demo.service.IndustryService;
+import com.example.demo.service.services.CustomerService;
+import com.example.demo.service.services.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 

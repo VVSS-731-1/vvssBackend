@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.CustomerService;
+import com.example.demo.service.services.CustomerService;
 import com.example.demo.service.dto.CustomerDto;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

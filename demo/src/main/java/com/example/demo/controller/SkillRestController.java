@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Skill;
-import com.example.demo.service.SkillService;
 import com.example.demo.service.dto.SkillDTO;
-import com.example.demo.service.dto.SkillWrapperDTO;
+import com.example.demo.service.services.SkillService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,17 +31,6 @@ public class SkillRestController {
         }
 
         return ResponseEntity.badRequest().body("No skill with given id.");
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<String> saveSkill(@RequestBody SkillWrapperDTO skillDTO) {
-        SkillWrapperDTO response = skillService.save(skillDTO);
-
-        if(response != null) {
-            return ResponseEntity.ok().body("Skill saved!");
-        }
-
-        return ResponseEntity.badRequest().body("Skill save failed!");
     }
 
     @PostMapping("/deactivate")

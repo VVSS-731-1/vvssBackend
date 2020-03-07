@@ -1,7 +1,5 @@
-package com.example.demo.service;
+package com.example.demo.service.services;
 
-import com.example.demo.model.Profile;
-import com.example.demo.model.SkillProfile;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.dto.DtoMapping;
@@ -11,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Id;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

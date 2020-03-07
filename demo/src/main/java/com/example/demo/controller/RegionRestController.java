@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.RegionService;
+import com.example.demo.service.services.RegionService;
 import com.example.demo.service.dto.RegionDTO;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

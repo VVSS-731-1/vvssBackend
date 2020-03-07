@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.services;
 
 import com.example.demo.model.SkillArea;
 import com.example.demo.repository.SkillAreaRepository;

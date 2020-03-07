@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SkillArea;
-import com.example.demo.service.SkillAreaService;
+import com.example.demo.service.services.SkillAreaService;
 import com.example.demo.service.dto.SkillAreaDTO;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,9 @@
-package com.example.demo.service;
+package com.example.demo.service.services;
 
 import com.example.demo.model.ConsultingLevel;
 import com.example.demo.repository.ConsultingLevelRepository;
 import com.example.demo.service.dto.ConsultingLevelDTO;
 import com.example.demo.service.dto.DtoMapping;
-import com.example.demo.service.interfaces.ConsultingLevelServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Service
 @Component
-public class ConsultingLevelService implements ConsultingLevelServiceInterface {
+public class ConsultingLevelService {
 
     @Autowired
     private ConsultingLevelRepository consultingLevelRepository;

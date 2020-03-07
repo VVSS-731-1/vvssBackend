@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.services;
 
 import com.example.demo.model.Region;
 import com.example.demo.service.dto.DtoMapping;
