@@ -40,13 +40,17 @@ public class RegionService {
     }
 
     //TODO admin only
-    public void deactivateRegion(RegionDTO regionDTO) {
+    public RegionDTO deactivateRegion(RegionDTO regionDTO) {
         Region region = regionRepository.getOne(regionDTO.getId());
 
         if(region != null) {
             region.setStatus(false);
+            regionDTO.setStatus(false);
             regionRepository.save(region);
+            return regionDTO;
         }
+
+        return null;
     }
 
     public RegionDTO regionUpdate(RegionDTO regionDTO) {
