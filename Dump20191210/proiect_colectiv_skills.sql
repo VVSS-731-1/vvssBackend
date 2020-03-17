@@ -30,7 +30,7 @@ CREATE TABLE `skills` (
   PRIMARY KEY (`id`),
   KEY `skill_areas_id_fk_idx` (`skill_area_id`),
   CONSTRAINT `skill_areas_id_fk` FOREIGN KEY (`skill_area_id`) REFERENCES `skill_areas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -35,7 +35,7 @@ CREATE TABLE `projects` (
   KEY `industry_id_fk_idx` (`industry_id`),
   CONSTRAINT `customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   CONSTRAINT `industry_id_fk` FOREIGN KEY (`industry_id`) REFERENCES `industries` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
