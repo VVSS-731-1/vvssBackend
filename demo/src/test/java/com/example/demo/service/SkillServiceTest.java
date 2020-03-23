@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Skill;
+import com.example.demo.service.services.SkillService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

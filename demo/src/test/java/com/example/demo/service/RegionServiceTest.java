@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Region;
 import com.example.demo.service.dto.DtoMapping;
+import com.example.demo.service.services.RegionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
