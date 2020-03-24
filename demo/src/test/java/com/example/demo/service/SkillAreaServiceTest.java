@@ -41,7 +41,7 @@ class SkillAreaServiceTest {
         when(repository.findById(id)).thenReturn(Optional.of(skillArea));
         assertEquals(id, service.findById(id).getId());
 
-        when(repository.findById(-1)).thenReturn(null);
+        when(repository.findById(-1).isPresent()).thenReturn(false);
         assertNull(service.findById(-1));
     }
 }
