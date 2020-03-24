@@ -43,35 +43,4 @@ class UserServiceTest {
         when(userRepository.findAll()).thenReturn(Stream.of(new User(), new User()).collect(Collectors.toList()));
         Assert.assertEquals(2, userService.findAll().size());
     }
-
-    @Test
-    public void findById() {
-        int id = 89;
-        when(userRepository.findById(id)).thenReturn(Optional.of(new User()));
-        Assert.assertEquals(Optional.of(new User()), userService.findById(id));
-    }
-
-    @Test
-    public void save() {
-        UserDTO userDTO = getUserDTO();
-        when(userService.save(userDTO)).thenReturn(userDTO);
-        Assert.assertEquals(userDTO, userDTO);
-    }
-
-    public UserDTO getUserDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(1);
-        userDTO.setCounter(0);
-        userDTO.setAdmin(false);
-        userDTO.setPassword("password");
-        userDTO.setStatus(true);
-        userDTO.setFirstName("paul");
-        userDTO.setLastName("paul");
-        userDTO.setProjects(Stream.of(new ProjectDto()).collect(Collectors.toList()));
-        userDTO.setSupervising(Stream.of(new UserDTO()).collect(Collectors.toSet()));
-        userDTO.setSupervisor(new UserDTO());
-        userDTO.setUsername("hatz");
-        userDTO.setEmail("myEmail@email.com");
-        return userDTO;
-    }
 }
