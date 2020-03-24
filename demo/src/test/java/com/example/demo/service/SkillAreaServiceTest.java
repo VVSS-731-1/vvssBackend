@@ -2,30 +2,36 @@ package com.example.demo.service;
 
 import com.example.demo.model.SkillArea;
 import com.example.demo.repository.SkillAreaRepository;
+import com.example.demo.service.dto.DtoMapping;
+import com.example.demo.service.dto.SkillAreaDTO;
 import com.example.demo.service.services.SkillAreaService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 class SkillAreaServiceTest {
 
-    @Autowired
+    @InjectMocks
     SkillAreaService service;
 
-    @MockBean
+    @Mock
     SkillAreaRepository repository;
+
+    @Mock
+    private DtoMapping dtoMapping;
 
     @Test
     void findAll() {
@@ -38,10 +44,33 @@ class SkillAreaServiceTest {
         int id = 82;
         SkillArea skillArea = new SkillArea();
         skillArea.setId(id);
+        SkillAreaDTO skillAreaDTO = new SkillAreaDTO();
+        skillAreaDTO.setId(id);
+
         when(repository.findById(id)).thenReturn(Optional.of(skillArea));
+        when(dtoMapping.getDTOFromSkillArea(skillArea)).thenReturn(skillAreaDTO);
         assertEquals(id, service.findById(id).getId());
 
-        when(repository.findById(-1).isPresent()).thenReturn(false);
+        when(repository.findById(-1)).thenReturn(Optional.ofNullable(null));
         assertNull(service.findById(-1));
+    }
+
+    @Test
+    void save() {
+        int id = 82;
+        SkillAreaDTO skillAreaDTO = new SkillAreaDTO();
+        SkillArea skillArea = new SkillArea();
+        skillArea.setId(id);
+        skillAreaDTO.setId(id);
+
+        when(repository.save(skillArea)).thenReturn(skillArea);
+        when(dtoMapping.getSkillAreaFromDTO(skillAreaDTO)).thenReturn(skillArea);
+        when(dtoMapping.getDTOFromSkillArea(skillArea)).thenReturn(skillAreaDTO);
+        assertEquals(skillAreaDTO, service.save(skillAreaDTO));
+
+        when(repository.save(null)).thenReturn(null);
+        when(dtoMapping.getSkillAreaFromDTO(null)).thenReturn(null);
+        when(dtoMapping.getDTOFromSkillArea(null)).thenReturn(null);
+        assertNull(service.save(null));
     }
 }
