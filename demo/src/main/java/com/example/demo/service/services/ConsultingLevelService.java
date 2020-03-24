@@ -41,13 +41,16 @@ public class ConsultingLevelService {
     }
 
     //TODO admin only
-    public void deactivateConsultingLevel(ConsultingLevelDTO consultingLevelDTO) {
+    public ConsultingLevel deactivateConsultingLevel(ConsultingLevelDTO consultingLevelDTO) {
         ConsultingLevel consultingLevel = consultingLevelRepository.getOne(consultingLevelDTO.getId());
+        ConsultingLevel returnedConsultingLevel = new ConsultingLevel();
 
         if(consultingLevel != null) {
             consultingLevel.setStatus(false);
-            consultingLevelRepository.save(consultingLevel);
+            returnedConsultingLevel = consultingLevelRepository.save(consultingLevel);
         }
+
+        return returnedConsultingLevel;
     }
 
 
