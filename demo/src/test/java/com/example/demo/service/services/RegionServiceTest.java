@@ -79,6 +79,16 @@ class RegionServiceTest {
         Assert.assertEquals(regionDTO, regionTest);
     }
 
+    @Test
+    void save_returnsNull_withNullRegion() {
+        regionDTO = getRegionDto();
+
+        when(dtoMapping.getRegionFromDTO(regionDTO)).thenReturn(null);
+
+        RegionDTO result = regionService.save(regionDTO);
+
+        Assert.assertNull(result);
+    }
 
     @Test
     void deactivateRegion_returnsRegionWithChangedStatus_withNotNullRegion() {
