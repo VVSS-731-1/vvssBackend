@@ -27,6 +27,10 @@ public class CustomerService {
         return customerRepository.findAll().stream().map(dtoMapping::customerToDto).collect(Collectors.toList());
     }
 
+    public List<Customer> findAllCustomers() {
+        return customerRepository.findAll();
+    }
+
     public CustomerDto findById(Integer id){
         if (customerRepository.findById(id).isPresent())
             return dtoMapping.customerToDto(customerRepository.findById(id).get());
