@@ -37,7 +37,7 @@ class CustomerServiceTest {
     private CustomerDto customerDto;
 
     @Test
-    void findAllCustomers() {
+    public void findAllCustomers() {
         when(customerRepository.findAll()).thenReturn(getCustomerList());
 
         List<Customer> customers = this.customerService.findAllCustomers();
@@ -47,7 +47,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void findById() {
+    public void findById() {
         customer = getCustomer();
         customerDto = getCustomerDTO();
 
@@ -61,15 +61,15 @@ class CustomerServiceTest {
     }
 
     @Test
-    void findByName() {
+    public void findByName() {
     }
 
     @Test
-    void save() {
+    public void save() {
     }
 
     @Test
-    void deactivateCustomer() {
+    public void deactivateCustomer() {
     }
 
     private Customer getCustomer() {

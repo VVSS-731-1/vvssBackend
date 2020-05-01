@@ -42,13 +42,13 @@ class RegionServiceTest {
     private DtoMapping dtoMapping;
 
     @Test
-    void getAllRegions_returnsList_whenCalled() {
+    public void getAllRegions_returnsList_whenCalled() {
         when(regionRepository.findAll()).thenReturn(Stream.of(new Region(), new Region()).collect(Collectors.toList()));
         Assert.assertEquals(2, regionService.getAllRegions().size());
     }
 
     @Test
-    void findById_returnsRegion_whenIdIsGiven() {
+    public void findById_returnsRegion_whenIdIsGiven() {
         region = getRegion();
         regionDTO = getRegionDto();
 
@@ -60,14 +60,14 @@ class RegionServiceTest {
     }
 
     @Test
-    void findById_returnsNull_whenIdIsNull() {
+    public void findById_returnsNull_whenIdIsNull() {
         RegionDTO result = regionService.findById(null);
         Assert.assertNull(result);
     }
 
 
     @Test
-    void save_returnsRegion_withNotNullRegion() {
+    public void save_returnsRegion_withNotNullRegion() {
         regionDTO = getRegionDto();
         region = getRegion();
 
@@ -80,7 +80,7 @@ class RegionServiceTest {
     }
 
     @Test
-    void save_returnsNull_withNullRegion() {
+    public void save_returnsNull_withNullRegion() {
         regionDTO = getRegionDto();
 
         when(dtoMapping.getRegionFromDTO(regionDTO)).thenReturn(null);
@@ -91,7 +91,7 @@ class RegionServiceTest {
     }
 
     @Test
-    void deactivateRegion_returnsRegionWithChangedStatus_withNotNullRegion() {
+    public void deactivateRegion_returnsRegionWithChangedStatus_withNotNullRegion() {
         regionDTO = getRegionDto();
         region = getRegion();
 
@@ -106,7 +106,7 @@ class RegionServiceTest {
     }
 
     @Test
-    void deactivateRegion_returnsNull_withNullRegion() {
+    public void deactivateRegion_returnsNull_withNullRegion() {
         regionDTO = getRegionDto();
 
         when(regionRepository.getOne(regionDTO.getId())).thenReturn(null);
@@ -118,7 +118,7 @@ class RegionServiceTest {
     }
 
     @Test
-    void regionUpdate_returnsUpdatedRegion_whenRegionIsNotNull() {
+    public void regionUpdate_returnsUpdatedRegion_whenRegionIsNotNull() {
         regionDTO = getRegionDto();
         regionDTO.setName("Region2");
         region = getRegion();
@@ -132,7 +132,7 @@ class RegionServiceTest {
     }
 
     @Test
-    void regionUpdate_returnsNull_whenRegionIsNull() {
+    public void regionUpdate_returnsNull_whenRegionIsNull() {
         regionDTO = getRegionDto();
         regionDTO.setId(null);
         RegionDTO result = regionService.regionUpdate(regionDTO);

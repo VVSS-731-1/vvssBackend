@@ -38,14 +38,14 @@ class ConsultingLevelServiceTest {
     private ConsultingLevelDTO consultingLevelDTO;
 
     @Test
-    void findAll() {
+    public void findAll() {
         when(consultingLevelRepository.findAll()).thenReturn(getListCL());
 
         Assert.assertEquals(getListCL(), this.consultingLevelService.findAll());
     }
 
     @Test
-    void findById() {
+    public void findById() {
         consultingLevel = getOneCL();
         consultingLevelDTO = getOneCLDTO();
 
@@ -60,7 +60,7 @@ class ConsultingLevelServiceTest {
     }
 
     @Test
-    void findByInvalidId() {
+    public void findByInvalidId() {
         consultingLevel = getOneCL();
         consultingLevelDTO = getOneCLDTO();
 
@@ -71,7 +71,7 @@ class ConsultingLevelServiceTest {
     }
 
     @Test
-    void save() {
+    public void save() {
         consultingLevel = getOneCL();
         consultingLevelDTO = getOneCLDTO();
 
@@ -87,7 +87,7 @@ class ConsultingLevelServiceTest {
     }
 
     @Test
-    void deactivateConsultingLevel() {
+    public void deactivateConsultingLevel() {
         consultingLevel = getOneCL();
         consultingLevelDTO = getOneCLDTO();
 

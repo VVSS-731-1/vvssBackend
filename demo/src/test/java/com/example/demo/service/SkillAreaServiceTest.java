@@ -34,13 +34,13 @@ class SkillAreaServiceTest {
     private DtoMapping dtoMapping;
 
     @Test
-    void findAll() {
+    public void findAll() {
         when(repository.findAll()).thenReturn(Stream.of(new SkillArea(), new SkillArea()).collect(Collectors.toList()));
         assertEquals(2, service.findAll().size());
     }
 
     @Test
-    void findById() {
+    public void findById() {
         int id = 82;
         SkillArea skillArea = new SkillArea();
         skillArea.setId(id);
@@ -56,7 +56,7 @@ class SkillAreaServiceTest {
     }
 
     @Test
-    void save() {
+    public void save() {
         int id = 82;
         SkillAreaDTO skillAreaDTO = new SkillAreaDTO();
         SkillArea skillArea = new SkillArea();
